@@ -19,7 +19,7 @@
 </html>
 
 <script src="../jquery.js"></script>
-<script src="../auth/js/login_admin.js"></script>
+<script src="js/login_admin.js"></script>
 
 
 <script>

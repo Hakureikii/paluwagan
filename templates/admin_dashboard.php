@@ -18,8 +18,8 @@ if (!isset($_SESSION["admin_user"], $_SESSION["admin_id"])) {
 <body>
     <h1>WELCOME <?php echo ($_SESSION["admin_user"])?></h1>
     <a href=""> Manage Users </a>
-    <a href=""> Manage Groups </a>
-    <a href=""> Monitor Transactions </a>
+    <a href=""> View Groups </a>
+    <a href=""> View Transactions </a>
     <a href="../auth/php/logout.php"> logout </a>
 </body>
 </html>
