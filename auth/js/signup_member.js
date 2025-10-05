@@ -1,5 +1,5 @@
-function signup_participants(last_name, first_name, middle_name, brgy, municipality, province, contact_number, email, password, credentials) {
-    $.post("../auth/php/signup_user.php", 
+function signup_members(last_name, first_name, middle_name, brgy, municipality, province, contact_number, email, password, credentials) {
+    $.post("../auth/php/signup_member.php", 
         {
             last_name: last_name,
             first_name: first_name,

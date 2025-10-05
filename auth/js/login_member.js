@@ -1,12 +1,12 @@
-function login_participant(email, password) {
-    $.post("auth/php/login_participant.php", 
+function login_member(email, password) {
+    $.post("auth/php/login_member.php", 
         {
             email: email,
             password: password
         }, 
         function(response) {
             if (response === "login") {
-                window.location.href="templates/participant_dashboard.php";
+                window.location.href="templates/member_dashboard.php";
             } else {
                 alert("negro");
             }

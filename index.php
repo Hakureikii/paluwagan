@@ -9,11 +9,11 @@
 </head>
 
 <body>
-    <form id="form-login-user">
+    <form id="form-login-member">
         <input type="email" placeholder="email" id="email">
         <input type="password" placeholder="password" id="password">
         <button type="submit" class="btn btn-primary"> Login </button>
-        <a href="templates/signup_participant.php"> No account? Sign Up! </a>
+        <a href="templates/signup_member.php"> No account? Sign Up! </a>
     </form>
 
 </body>
@@ -21,14 +21,14 @@
 </html>
 
 <script src="jquery.js"></script>
-<script src="auth/js/login_participant.js"></script>
+<script src="auth/js/login_member.js"></script>
 
 
 <script>
-    $("#form-login-user").submit(function (e) {
+    $("#form-login-member").submit(function (e) {
         e.preventDefault();
         let email = $("#email").val().trim();
         let password = $("#password").val().trim();
-        login_participant(email, password);
+        login_member(email, password);
     })
 </script>

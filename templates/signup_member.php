@@ -10,7 +10,7 @@
 
 
 <body>
-    <form id="form-signup-user">
+    <form id="form-signup-member">
         <input type="text" placeholder="Last name" id="last-name">
         <input type="text" placeholder="First name" id="first-name">
         <input type="text" placeholder="Middle name" id="middle-name">
@@ -31,9 +31,9 @@
 
 
 <script src="../jquery.js"></script>
-<script src="../auth/js/signup_user.js"></script>
+<script src="../auth/js/signup_member.js"></script>
 <script>
-    $("#form-signup-user").submit(function (e) {
+    $("#form-signup-member").submit(function (e) {
         e.preventDefault();
         let last_name = $("#last-name").val().trim();
         let first_name = $("#first-name").val().trim();
@@ -45,6 +45,6 @@
         let email = $("#email").val().trim();
         let password = $("#password").val().trim();
         let credentials = $("#credentials").val().trim();
-        signup_participants(last_name, first_name, middle_name, brgy, municipality, province, contact_number, email, password, credentials);
+        signup_members(last_name, first_name, middle_name, brgy, municipality, province, contact_number, email, password, credentials);
     })
 </script>
