@@ -6,7 +6,7 @@ function login_member(email, password) {
         }, 
         function(response) {
             if (response === "login") {
-                window.location.href="../../templates/members/member_dashboard.php";
+                window.location.href="templates/members/member_dashboard.php";
             } else {
                 alert("negro");
             }
