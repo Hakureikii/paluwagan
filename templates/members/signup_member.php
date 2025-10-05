@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../styles/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../styles/bootstrap-5.3.8-dist/css/bootstrap.min.css">
 </head>
 
 
@@ -22,7 +22,7 @@
         <input type="text" placeholder="Password" id="password"> <br>
         Credentials: <input type="file" id="credentials">
         <button type="submit" class="btn btn-primary"> Sign Up </button>
-        <a href="../index.php"> Already have an account? Sign in now </a>
+        <a href="../../index.php"> Already have an account? Sign in now </a>
     </form>
 </body>
 
@@ -30,8 +30,8 @@
 </html>
 
 
-<script src="../jquery.js"></script>
-<script src="../auth/js/signup_member.js"></script>
+<script src="../../jquery.js"></script>
+<script src="../../auth/js/signup_member.js"></script>
 <script>
     $("#form-signup-member").submit(function (e) {
         e.preventDefault();

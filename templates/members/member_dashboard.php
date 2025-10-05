@@ -19,6 +19,9 @@ if (!isset($_SESSION["participant_name"], $_SESSION["participant_id"])) {
 
 
     <h1>Welcome <?php echo $_SESSION['participant_name']?></h1>
+
+    <a href=""> Form Group </a>
+    <a href=""> Join Group </a>
     <a href="../auth/php/logout.php"> Logout </a>
     
 

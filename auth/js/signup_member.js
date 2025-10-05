@@ -1,5 +1,5 @@
 function signup_members(last_name, first_name, middle_name, brgy, municipality, province, contact_number, email, password, credentials) {
-    $.post("../auth/php/signup_member.php", 
+    $.post("../../auth/php/signup_member.php", 
         {
             last_name: last_name,
             first_name: first_name,
@@ -14,7 +14,7 @@ function signup_members(last_name, first_name, middle_name, brgy, municipality, 
         }, 
         function(response) {
             if (response === "ok") {
-                window.location.href="../index.php";
+                window.location.href="../../index.php";
             } else {
                 alert("bai");
             }

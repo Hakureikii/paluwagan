@@ -13,7 +13,7 @@
         <input type="email" placeholder="email" id="email">
         <input type="password" placeholder="password" id="password">
         <button type="submit" class="btn btn-primary"> Login </button>
-        <a href="templates/signup_member.php"> No account? Sign Up! </a>
+        <a href="templates/members/signup_member.php"> No account? Sign Up! </a>
     </form>
 
 </body>
