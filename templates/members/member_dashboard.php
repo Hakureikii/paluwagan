@@ -13,7 +13,7 @@ if (!isset($_SESSION["participant_name"], $_SESSION["participant_id"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../styles/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../styles/css/bootstrap.min.css">
 </head>
 <body>
 

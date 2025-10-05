@@ -13,7 +13,7 @@ if (!isset($_SESSION["admin_user"], $_SESSION["admin_id"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="../styles/bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../styles/css/bootstrap.min.css">
 </head>
 <body>
     <h1>WELCOME <?php echo ($_SESSION["admin_user"])?></h1>
