@@ -26,7 +26,7 @@ if (
     !empty($credentials)
 
 ) {
-    $stmt = $conn->prepare("INSERT INTO participant(last_name, first_name, middle_name, barangay, municipality, province, contact_number, email, password, credentials) VALUES(:last_name, :first_name, :middle_name, :brgy, :municipality, :province, :contact_number, :email, :hashed_password, :credentials)");
+    $stmt = $conn->prepare("INSERT INTO member(last_name, first_name, middle_name, barangay, municipality, province, contact_number, email, password, credentials) VALUES(:last_name, :first_name, :middle_name, :brgy, :municipality, :province, :contact_number, :email, :hashed_password, :credentials)");
 
     $stmt->execute([
         ":last_name" => $last_name,
