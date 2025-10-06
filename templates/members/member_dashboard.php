@@ -25,8 +25,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
     <a href="member_dashboard.php"> Home </a>
     <a href="form_group.php"> Form Group </a>
     <a href=""> Join Group </a>
-    <a href=""> View My Group </a>
-    <a href=""> Notifications </a>
+    <a href="view_group.php"> View My Group </a>
+    <a href="notifications.php"> Notifications </a>
     <a href="../../auth/php/logout.php"> Logout </a>
 
 </body>
