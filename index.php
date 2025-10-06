@@ -6,32 +6,9 @@
 <title>Member Login</title>
 <link rel="stylesheet" href="styles/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="styles/css/index-style.css">
 <style>
-body,html{height:100%;margin:0;background:#f8f9fa;overflow:hidden;}
-.split-container{display:flex;flex-direction:row;height:100vh;animation:fadeIn 1s ease both;}
-.split-left{background:linear-gradient(135deg,#007bff,#6610f2);color:white;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:40px;flex:1;animation:slideInLeft 0.8s ease both;overflow:hidden;}
-.carousel-item{text-align:center;}
-.carousel-item h1{font-size:2rem;font-weight:700;margin-bottom:10px;}
-.carousel-item p{font-size:1.1rem;max-width:400px;margin:0 auto 25px auto;line-height:1.5;}
-.carousel-indicators{position:relative;bottom:0;margin-top:10px;}
-.carousel-indicators [data-bs-target]{width:10px;height:10px;border-radius:50%;background-color:rgba(255,255,255,0.4);border:none;transition:all 0.3s ease;margin:0 5px;}
-.carousel-indicators .active{background-color:white;transform:scale(1.2);}
-.split-right{flex:1;background:url('https://via.placeholder.com/800x1000?text=Placeholder+Background') center/cover no-repeat;display:flex;align-items:center;justify-content:center;animation:slideInRight 0.8s ease both;position:relative;}
-.split-right::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,0.4);}
-.login-card{background:rgba(255,255,255,0.95);backdrop-filter:blur(6px);padding:35px;border-radius:12px;width:300px;box-shadow:0 8px 25px rgba(0,0,0,0.15);transform:translateY(30px);opacity:0;animation:popIn 0.8s ease forwards 0.6s;position:relative;z-index:2;}
-.login-card h3{font-size:1.5rem;}
-.btn-primary{width:100%;position:relative;overflow:hidden;}
-.btn-primary.loading{pointer-events:none;opacity:0.8;}
-.spinner-border{width:1rem;height:1rem;border-width:2px;}
-.password-wrapper{position:relative;}
-.toggle-password{position:absolute;right:10px;top:50%;transform:translateY(-50%);cursor:pointer;color:#6c757d;}
-.form-control.is-invalid{border-color:#dc3545;box-shadow:0 0 0 0.2rem rgba(220,53,69,0.25);}
-@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
-@keyframes slideInLeft{from{transform:translateX(-50%);opacity:0;}to{transform:translateX(0);opacity:1;}}
-@keyframes slideInRight{from{transform:translateX(50%);opacity:0;}to{transform:translateX(0);opacity:1;}}
-@keyframes popIn{from{opacity:0;transform:translateY(30px) scale(0.95);}to{opacity:1;transform:translateY(0) scale(1);}}
-@media(max-width:992px){.split-container{flex-direction:column;height:auto;}.split-left{display:none;}.split-right{flex:none;width:100%;min-height:100vh;background-position:center;}.login-card{width:85%;max-width:340px;margin:60px auto;padding:30px 25px;background:rgba(255,255,255,0.98);}.login-card h3{font-size:1.4rem;}}
-@media(max-width:576px){.login-card{width:90%;padding:25px 20px;margin:40px auto;}.login-card h3{font-size:1.3rem;}}
+
 </style>
 </head>
 
