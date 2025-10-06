@@ -41,12 +41,14 @@ function display_group_name() {
          $("#invite_members").prop("disabled", true);
          $("#leave_group").prop("disabled", true);
          $(".pending_invites_table").hide();
+         $(".group_members_table").hide();
          $("#group_name").html("Wala ka pa group bai");
       } else {
          let group = JSON.parse(response);
          $("#invite_members").prop("disabled", false);
          $("#leave_group").prop("disabled", false);
          $(".pending_invites_table").show()
+         $(".group_members_table").show();
          $("#group_name").html("Group: " + group);
       }
    })
