@@ -12,13 +12,6 @@ $fetch->execute([
 ]);
 $results = $fetch->fetch(PDO::FETCH_ASSOC);
 
-//retrieve pending invites
-// $pending_invites = $conn -> prepare("SELECT * FROM group_invitations");
-// $pending_invites->execute();
-// $invites = $pending_invites->fetchAll(PDO::FETCH_ASSOC);
-
-// echo json_encode($invites[0]['reciever_id']);
-
 // send invitations to members
 foreach ($members as $member_id) {
    $stmt = $conn->prepare("INSERT INTO group_invitations(sender_id, reciever_id, group_id) VALUES(:sender_id, :reciever_id, :group_id)");
