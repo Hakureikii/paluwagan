@@ -1,7 +1,42 @@
+// Fetch and display groups
+function display_groups() {
+   $.get("../../crud/php/fetch_groups.php", function (response) {
+      let groups = JSON.parse(response);
+      let display = "";
+
+      if (groups === false) {
+         display = `
+                <div class="text-center text-muted py-3">
+                    No groups available to join.
+                </div>`;
+      } else {
+         groups.forEach(group => {
+            display += `
+                    <div class="group-card d-flex justify-content-between align-items-center mb-3 p-3 shadow-sm rounded" 
+                         style="background: var(--card);">
+                        <div>
+                            <h5 class="mb-1">${group.group_name}</h5>
+                            <small>Capacity: ${group.group_capacity}</small><br>
+                            <small>Members Joined: ${group.member_count}</small>
+                        </div>
+                        <button class="join-btn btn btn-success" data-id="${group.group_id}">
+                            <i class="fa-solid fa-user-plus me-1"></i> Join
+                        </button>
+                    </div>
+                `;
+         });
+      }
+
+      $("#groupsContainer").html(display);
+   });
+}
+
+
+
 function display_group_members() {
    $.get("../../crud/php/fetch_group_members.php", function (response) {
       let members = JSON.parse(response);
-      let display ="";
+      let display = "";
 
       for (let i = 0; i < members.length; i++) {
          display +=
@@ -57,23 +92,51 @@ function display_group_name() {
 
 function display_group_invitations() {
    $.get("../../crud/php/fetch_group_invitations.php", function (response) {
-      let invitations = JSON.parse(response);
+      const invitations = JSON.parse(response);
       let display = "";
 
-      for (let i = 0; i < invitations.length; i++) {
-         display +=
-            `<tr>
-            <td> ${i + 1} </td>
-            <td> ${invitations[i].group_name} </td>
-            <td> ${invitations[i].sender} </td>
-            <td> ${invitations[i].reciever} </td>
-            <td> 
-            <button type="button" data-id="${invitations[i].group_id}" id="accept_invitation"> Accept </button> 
-            <button type="button" data-id="${invitations[i].group_id}" id="decline_invitation"> Decline </button> 
-            
-            </td>
-         </tr>`
+      if (invitations.length === 0) {
+         display = `
+                <li class="list-group-item text-center text-muted">
+                    No invitations found.
+                </li>
+            `;
+      } else {
+         invitations.forEach(inv => {
+            display += `
+                    <li class="list-group-item">
+                        <div class="item-info">
+                            <strong>${inv.group_name}</strong>
+                            <span>From: ${inv.sender}</span>
+                            <span>To: ${inv.reciever}</span>
+                        </div>
+                        <div class="item-footer">
+                            <button 
+                                class="action-btn deposit-btn btn-sm accept-invitation" 
+                                data-id="${inv.group_id}">
+                                Accept
+                            </button>
+                            <button 
+                                class="action-btn withdraw-btn btn-sm decline-invitation" 
+                                data-id="${inv.group_id}">
+                                Decline
+                            </button>
+                        </div>
+                    </li>
+                `;
+         });
       }
-      $("#group_invitations").html(display);
-   })
+
+      // Replace all list items at once
+      $("#group_invitations_list").html(display);
+   });
 }
+
+
+//count members and pending invites
+// function member_count() {
+//    $.get("../../crud/php/fetch_groups.php", function (response) {
+//       let member_count = JSON.parse(response)
+//       alert(member_count.member_count);
+//    })
+// }

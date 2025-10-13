@@ -136,7 +136,7 @@ body{background:var(--bg);color:var(--text);font-family:"Segoe UI",sans-serif;tr
     <nav class="nav-links">
       <a href="#" class="active"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
       <a href="form_group.php"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
-      <a href="#"><i class="fa-solid fa-users"></i>Join Group</a>
+      <a href="join_group.php"><i class="fa-solid fa-users"></i>Join Group</a>
       <a href="view_group.php"><i class="fa-solid fa-eye"></i>My Groups</a>
       <a href="notifications.php"><i class="fa-solid fa-bell"></i>Notifications</a>
 

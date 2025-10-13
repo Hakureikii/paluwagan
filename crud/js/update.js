@@ -1,5 +1,5 @@
 //Accept invitation
-$(document).on('click', '#accept_invitation', function () {
+$(document).on('click', '.accept-invitation', function () {
    let group_id = $(this).data("id");
    if (!confirm("Accept Invitation?")) {
       return;

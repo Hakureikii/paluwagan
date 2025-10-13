@@ -5,60 +5,459 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
    exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="../../styles/css/bootstrap.min.css">
    <title>Form Group</title>
+
+   <link rel="stylesheet" href="../../styles/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+   <style>
+      :root {
+         --bg: #f8f9fa;
+         --text: #212529;
+         --side: #fff;
+         --card: #fff;
+         --shadow: rgba(0, 0, 0, 0.1);
+      }
+
+      body.dark-mode {
+         --bg: #181a1b;
+         --text: #f8f9fa;
+         --side: #212529;
+         --card: #2c3034;
+         --shadow: rgba(0, 0, 0, 0.5);
+      }
+
+      body {
+         background: var(--bg);
+         color: var(--text);
+         font-family: "Segoe UI", sans-serif;
+         transition: .3s;
+         display: flex;
+         min-height: 100vh;
+         overflow-x: hidden;
+         margin: 0;
+      }
+
+      /* Sidebar */
+      .sidebar {
+         width: 250px;
+         background: var(--side);
+         box-shadow: 2px 0 10px var(--shadow);
+         display: flex;
+         flex-direction: column;
+         justify-content: space-between;
+         position: fixed;
+         top: 0;
+         bottom: 0;
+         left: 0;
+         padding: 20px 15px;
+         transition: left .3s ease;
+         z-index: 200;
+      }
+
+      .sidebar h4 {
+         font-weight: 700;
+         margin-bottom: 20px;
+         text-align: center;
+      }
+
+      .nav-links {
+         display: flex;
+         flex-direction: column;
+         gap: 6px;
+      }
+
+      .nav-links a {
+         display: flex;
+         align-items: center;
+         gap: 10px;
+         padding: 10px 12px;
+         border-radius: 8px;
+         text-decoration: none;
+         color: var(--text);
+         font-weight: 500;
+         transition: .2s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+         background: rgba(13, 110, 253, 0.1);
+         color: #0d6efd;
+      }
+
+      .nav-links .action-btn {
+         display: none;
+      }
+
+      .sidebar-footer {
+         border-top: 1px solid rgba(0, 0, 0, 0.1);
+         padding-top: 10px;
+         text-align: center;
+         font-size: .9rem;
+      }
+
+      .theme-toggle {
+         background: none;
+         border: none;
+         font-size: 1.3rem;
+         cursor: pointer;
+         color: var(--text);
+         transition: .3s;
+      }
+
+      .theme-toggle:hover {
+         transform: rotate(15deg);
+      }
+
+      .sidebar-close {
+         position: absolute;
+         top: 10px;
+         right: 15px;
+         font-size: 1.3rem;
+         cursor: pointer;
+         display: none;
+         color: var(--text);
+      }
+
+      /* Main content */
+      .main-content {
+         margin-left: 250px;
+         margin-right: 15px;
+         flex: 1;
+         padding: 30px;
+         display: flex;
+         flex-direction: column;
+         gap: 20px;
+         transition: margin .3s ease;
+         width: 100%;
+         box-sizing: border-box;
+      }
+
+      .top-bar {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         flex-wrap: wrap;
+         gap: 10px;
+      }
+
+      .welcome {
+         margin-right: auto;
+         font-weight: 500;
+      }
+
+      .sidebar-toggler {
+         display: none;
+         font-size: 1.5rem;
+         border: none;
+         background: none;
+         color: var(--text);
+         cursor: pointer;
+      }
+
+      /* Deposit/Withdraw + Wallet */
+      .balance-container {
+         display: flex;
+         align-items: center;
+         gap: 10px;
+         flex-wrap: wrap;
+      }
+
+      .action-btn {
+         border: 2px solid transparent;
+         border-radius: 8px;
+         padding: 8px 14px;
+         font-size: .9rem;
+         cursor: pointer;
+         background: transparent;
+         transition: .3s;
+         font-weight: 500;
+         text-align: center;
+      }
+
+      .deposit-btn {
+         color: #198754;
+         border-color: #198754;
+      }
+
+      .deposit-btn:hover {
+         background: #198754;
+         color: #fff;
+      }
+
+      .withdraw-btn {
+         color: #dc3545;
+         border-color: #dc3545;
+      }
+
+      .withdraw-btn:hover {
+         background: #dc3545;
+         color: #fff;
+      }
+
+      .balance-badge {
+         background: var(--card);
+         padding: 6px 14px;
+         border-radius: 25px;
+         box-shadow: 0 2px 6px var(--shadow);
+         font-weight: 600;
+         display: flex;
+         align-items: center;
+         gap: 6px;
+      }
+
+      .balance-eye {
+         cursor: pointer;
+         font-size: 1rem;
+         color: var(--text);
+      }
+
+      .card-box {
+         background: var(--card);
+         box-shadow: 0 6px 16px var(--shadow);
+         border-radius: 12px;
+         padding: 25px;
+      }
+
+      /* Responsive */
+      @media (max-width: 991px) {
+         .sidebar {
+            left: -250px;
+         }
+
+         .sidebar.active {
+            left: 0;
+         }
+
+         .sidebar-close {
+            display: block;
+         }
+
+         .sidebar-toggler {
+            display: block;
+         }
+
+         .main-content {
+            margin-left: 0;
+            margin-right: 10px;
+            width: 100%;
+         }
+
+         .overlay.active {
+            display: block;
+         }
+      }
+
+      @media (max-width: 576px) {
+         .sidebar { width: 220px; padding: 15px; }
+         .top-bar {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+            gap: 8px;
+            flex-wrap: nowrap;
+         }
+         .welcome {
+            font-size: .85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 1;
+         }
+         .balance-container {
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+         }
+         .top-bar .action-btn { display: none; }
+         .nav-links .action-btn {
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+            font-size: .85rem;
+            padding: 8px 12px;
+         }
+         .nav-links .action-btn:first-of-type { margin-top: 15px; }
+         .balance-badge {
+            font-size: .8rem;
+            padding: 5px 12px;
+         }
+      }
+   </style>
 </head>
 
 <body>
-   <h1>Welcome <?php echo $_SESSION['member_name'] ?></h1>
-   <a href="member_dashboard.php"> Home </a>
-   <a href="form_group.php"> Form Group </a>
-   <a href=""> Join Group </a>
-   <a href="view_group.php"> View My Group </a>
-   <a href="notifications.php"> Notifications </a>
-   <a href="../../auth/php/logout.php"> Logout </a>
-   <h1> Form Group </h1>
+   <aside class="sidebar" id="sidebar">
+      <i class="fa-solid fa-xmark sidebar-close" id="sidebarClose"></i>
 
-   <form id="form-add-group">
-      <input type="text" placeholder="Group Name" id="group_name" required>
-      <input type="number" placeholder="Capacity" id="group_capacity" required>
-      <button type="submit"> Save </button>
-   </form>
+      <div>
+         <h4><i class="fa-solid fa-wallet me-2"></i>Paluwagan</h4>
 
-   <div id="error-message"></div>
+         <nav class="nav-links">
+            <a href="member_dashboard.php"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+            <a href="form_group.php" class="active"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
+            <a href="join_group.php"><i class="fa-solid fa-users"></i>Join Group</a>
+            <a href="view_group.php"><i class="fa-solid fa-eye"></i>My Groups</a>
+            <a href="notifications.php"><i class="fa-solid fa-bell"></i>Notifications</a>
+            <button class="action-btn deposit-btn">Deposit</button>
+            <button class="action-btn withdraw-btn">Withdraw</button>
+         </nav>
+      </div>
+
+      <div class="sidebar-footer">
+         <div class="mb-2">
+            <button class="theme-toggle" id="themeToggle">
+               <i class="fa-solid fa-sun"></i>
+            </button>
+         </div>
+         <div>
+            <a href="../../auth/php/logout.php" class="text-decoration-none text-danger">
+               <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+            </a>
+         </div>
+      </div>
+   </aside>
+
+   <div class="overlay" id="overlay"></div>
+
+   <div class="main-content">
+      <div class="top-bar">
+         <button class="sidebar-toggler" id="sidebarToggle">
+            <i class="fa-solid fa-bars"></i>
+         </button>
+
+         <div class="welcome">
+            Welcome, <strong><?php echo htmlspecialchars($_SESSION['member_name']); ?></strong>
+         </div>
+
+         <div class="balance-container">
+            <button class="action-btn deposit-btn">Deposit</button>
+            <button class="action-btn withdraw-btn">Withdraw</button>
+            <div class="balance-badge">
+               <i class="fa-solid fa-wallet"></i>
+               <span id="navBalance">₱12,450.00</span>
+               <i class="fa-solid fa-eye balance-eye" id="toggleBalance"></i>
+            </div>
+         </div>
+      </div>
+
+      <div class="card-box">
+         <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Form Group</h2>
+            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addGroupModal">
+               <i class="fa-solid fa-plus me-1"></i> Add Group
+            </button>
+         </div>
+
+         <p class="text-muted">Create and manage your Paluwagan groups easily. Click “Add Group” to start a new one.</p>
+      </div>
+   </div>
+
+   <!-- Modal for Add Group -->
+   <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="addGroupModalLabel">
+                  <i class="fa-solid fa-users-gear me-2"></i> Create New Group
+               </h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form id="form-add-group" class="modal-body">
+               <div class="mb-3">
+                  <label for="group_name" class="form-label">Group Name</label>
+                  <input type="text" id="group_name" class="form-control" placeholder="Enter group name" required>
+               </div>
+               <div class="mb-3">
+                  <label for="group_capacity" class="form-label">Capacity</label>
+                  <input type="number" id="group_capacity" class="form-control" placeholder="Enter capacity" required>
+               </div>
+               <div id="error-message" class="text-danger small mb-2"></div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save Group</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <script src="../../jquery.js"></script>
+   <script src="../../crud/js/create.js"></script>
+   <script src="../../styles/js/bootstrap.bundle.min.js"></script>
+
+   <script>
+      // Sidebar toggle
+      const sidebar = document.getElementById("sidebar");
+      const sidebarToggle = document.getElementById("sidebarToggle");
+      const sidebarClose = document.getElementById("sidebarClose");
+      const overlay = document.getElementById("overlay");
+
+      sidebarToggle.addEventListener("click", () => {
+         sidebar.classList.toggle("active");
+         overlay.classList.toggle("active");
+      });
+      sidebarClose.addEventListener("click", () => {
+         sidebar.classList.remove("active");
+         overlay.classList.remove("active");
+      });
+      overlay.addEventListener("click", () => {
+         sidebar.classList.remove("active");
+         overlay.classList.remove("active");
+      });
+
+      // Theme toggle
+      const themeToggle = document.getElementById("themeToggle");
+      const icon = themeToggle.querySelector("i");
+      if (localStorage.getItem("theme") === "dark") {
+         document.body.classList.add("dark-mode");
+         icon.classList.replace("fa-sun", "fa-moon");
+      }
+      themeToggle.addEventListener("click", () => {
+         document.body.classList.toggle("dark-mode");
+         localStorage.setItem("theme",
+            document.body.classList.contains("dark-mode") ? "dark" : "light");
+      });
+
+      // Balance visibility toggle
+      const balance = document.getElementById("navBalance");
+      const eye = document.getElementById("toggleBalance");
+      let visible = true;
+
+      eye.addEventListener("click", () => {
+         visible = !visible;
+         if (visible) {
+            balance.textContent = "₱12,450.00";
+            eye.classList.replace("fa-eye-slash", "fa-eye");
+         } else {
+            balance.textContent = "••••••••";
+            eye.classList.replace("fa-eye", "fa-eye-slash");
+         }
+      });
+
+      // Add Group form submit
+      $("#form-add-group").submit(function (e) {
+         e.preventDefault();
+         let group_name = $("#group_name").val().trim();
+         let capacity = $("#group_capacity").val().trim();
+         form_group(group_name, capacity);
+         $("#addGroupModal").modal("hide");
+      });
+
+      // Prevent cache issues
+      window.addEventListener("pageshow", function (event) {
+         if (event.persisted) window.location.reload();
+      });
+   </script>
 </body>
 
 </html>
-
-<script src="../../jquery.js"></script>
-<script src="../../crud/js/create.js"></script>
-<script>
-
-   //Form Group
-   $("#form-add-group").submit(function (e) {
-      e.preventDefault();
-
-      let group_name = $("#group_name").val().trim();
-      let capacity = $("#group_capacity").val().trim();
-
-      form_group(group_name, capacity);
-   })
-
-   //prevents page access while using back button
-   window.addEventListener("pageshow", function (event) {
-      if (event.persisted) {
-         window.location.reload();
-      }
-   });
-</script>
-
-
-
-<!-- I AINT TOUCHING DEEZ -->

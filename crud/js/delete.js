@@ -1,5 +1,5 @@
 //Decline invitation
-$(document).on('click', '#decline_invitation', function () {
+$(document).on('click', '.decline-invitation', function () {
    let group_id = $(this).data("id");
    if (!confirm("Decline invitation?")) {
       return;
