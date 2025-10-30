@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2025 at 12:54 PM
+-- Generation Time: Oct 30, 2025 at 07:10 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,6 +50,7 @@ CREATE TABLE `groups` (
   `group_id` int(11) NOT NULL,
   `group_name` varchar(50) NOT NULL,
   `group_capacity` int(11) NOT NULL,
+  `date_created` date NOT NULL,
   `creator_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -57,8 +58,8 @@ CREATE TABLE `groups` (
 -- Dumping data for table `groups`
 --
 
-INSERT INTO `groups` (`group_id`, `group_name`, `group_capacity`, `creator_id`) VALUES
-(13, 'Baithon', 6, 17);
+INSERT INTO `groups` (`group_id`, `group_name`, `group_capacity`, `date_created`, `creator_id`) VALUES
+(19, 'Banog', 6, '2025-10-24', 22);
 
 -- --------------------------------------------------------
 
@@ -72,13 +73,6 @@ CREATE TABLE `group_invitations` (
   `reciever_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `group_invitations`
---
-
-INSERT INTO `group_invitations` (`invitation_id`, `sender_id`, `reciever_id`, `group_id`) VALUES
-(3, 17, 19, 13);
 
 -- --------------------------------------------------------
 
@@ -109,9 +103,22 @@ INSERT INTO `member` (`member_id`, `last_name`, `first_name`, `middle_name`, `ba
 (1, 'asdfsdaf', 'fsdsfsdaf', 'sdasfdsaf', 'dsfsdaf', 'sdafsddfsdf', 'sadfsdafsdf', 'asdfsdfsdaf', '$2y$10$3trdIkptQX/wedI/SvQ2VOKgtly3yMW4imP8yzcYxp3PbDtXRq2se', 'C:\\fakepath\\Paper_Big_Data_and_Analytics_Adoption_Intention_in_SMEs_2025.pdf', '234234', NULL),
 (11, 'bai', 'bai', 'bai', 'bai', 'bai', 'bai', 'bai@gmail.com', '$2y$10$7toWc6nh1aK7Rbv9XD./yuR9u1zxOxg7MWBTgRcwoQwsCP5w7gI4q', 'C:\\fakepath\\Screenshot 2025-10-02 160847.png', '09987654321', NULL),
 (12, 'sakjdfh', 'sahfkash', 'sajshfksjh', 'asfhkasfh', 'safhsakdfh', 'askfhskadh', 'bai@gmail.com', '$2y$10$sLSgqYTsdXu4VNtTQr/GEOoqo6dxzUgdJMM4Tf9EjDBstvzuyUZ4a', 'C:\\fakepath\\Screenshot 2025-10-02 181416.png', '0998764321', NULL),
-(17, 'Casaquite', 'Kenneth', 'Alfonso', 'Brgy. Sibacungan', 'Lambunao', 'Iloilo', 'casaquitekenneth@gmail.com', '$2y$10$Hv1l9eF5OYYzRV/K1OXx6ONtgIz9GHky/YMOR6RFTz99RhzBXHsA6', 'C:\\fakepath\\responsive.png', '09123456789', 13),
-(18, 'Gimeno', 'Sean Ivan', 'Andales', 'Brgy. Basta', 'Badiangan', 'Iloilo', 'seanivandoks@gmail.com', '$2y$10$/InXCxkaBWPaD8Tja1qZn.wq6D8xISmNVLte5UbVfUJ.52ic6Ydym', 'C:\\fakepath\\Screenshot 2025-10-05 183005.png', '09987654321', 13),
-(19, 'Solanib', 'Jan Kennard', 'Gadong', 'Pob Ilawod', 'Bingawan', 'Iloilo', 'imKENN@gmail.com', '$2y$10$/UfnJ5O4Nirhu9dH65Rvn.PO0Gq//czftyx31LXd2NSTWMRPXLFvG', 'C:\\fakepath\\Screenshot 2025-10-02 181416.png', '09111111111', NULL);
+(22, 'Casaquite', 'Kenneth', 'Alfonso', 'Sibacungan', 'Lambunao', 'Iloilo', 'casaquitekenneth@gmail.com', '$2y$10$wPrt32jCs1vLMZZIFkBPY.6Aoq5x9Ev3Cw15.FNJmmZn7xdAwaW22', 'C:\\fakepath\\download (4).jpg', '09621848506', 19),
+(23, 'Gimeno', 'Sean Ivan', 'Andales', 'Manaolan', 'Badiangan', 'Iloilo', 'gimeno@gmail.com', '$2y$10$VPQG5O9kRfU9nx6xkcCj8.ymCHb.dLhePKK3YU4G2I6IAJzJBdFTO', 'C:\\fakepath\\download (3).jpg', '09123456789', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transactions`
+--
+
+CREATE TABLE `transactions` (
+  `transaction_id` int(11) NOT NULL,
+  `transaction_type` varchar(155) NOT NULL,
+  `transaction_date_time` datetime NOT NULL,
+  `amount` float NOT NULL,
+  `member_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -147,6 +154,12 @@ ALTER TABLE `member`
   ADD KEY `member_ibfk_1` (`group_id`);
 
 --
+-- Indexes for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD KEY `member_id` (`member_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -160,19 +173,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `group_invitations`
 --
 ALTER TABLE `group_invitations`
-  MODIFY `invitation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `invitation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- Constraints for dumped tables
@@ -191,6 +204,12 @@ ALTER TABLE `group_invitations`
 --
 ALTER TABLE `member`
   ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `transactions`
+--
+ALTER TABLE `transactions`
+  ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
