@@ -1,6 +1,7 @@
 // Fetch and display groups
 function display_groups() {
    $.get("../../crud/php/fetch_groups.php", function (response) {
+      alert(response)
       let groups = JSON.parse(response);
       let display = "";
 

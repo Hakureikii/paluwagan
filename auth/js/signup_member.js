@@ -14,6 +14,7 @@ function signup_members(last_name, first_name, middle_name, brgy, municipality, 
         }, 
         function(response) {
             if (response === "ok") {
+                alert("Successfully signed up!");
                 window.location.href="../../index.php";
             } else {
                 alert("bai");

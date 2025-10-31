@@ -285,7 +285,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             <nav class="nav-links">
                 <a href="member_dashboard.php"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
                 <a href="form_group.php"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
-                <a href="join_groups.php" class="active"><i class="fa-solid fa-users"></i>Join Group</a>
+                <a href="join_group.php" class="active"><i class="fa-solid fa-users"></i>Join Group</a>
                 <a href="view_group.php"><i class="fa-solid fa-eye"></i>My Groups</a>
                 <a href="notifications.php"><i class="fa-solid fa-bell"></i>Notifications</a>
                 <button class="action-btn deposit-btn">Deposit</button>
@@ -338,6 +338,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
     <script src="../../jquery.js"></script>
     <script src="../../crud/js/fetch.js"></script>
+    <script src="../../crud/js/delete.js"></script>
     <script src="../../styles/js/bootstrap.bundle.min.js"></script>
 
     <script>
@@ -389,6 +390,10 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
         //display groups
         display_groups();
+
+        //auto delete groups every minute and refresh
+        auto_delete_groups();
+        setInterval(auto_delete_groups, 60000);
 
         // Prevent cache issues
         window.addEventListener("pageshow", function (event) {

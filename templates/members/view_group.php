@@ -568,7 +568,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         <div class="analytics">
             <div class="chart-box">
                 <h6 id="group_name">
-                    <i class="fa-solid fa-users me-2"></i>Group Name
+                    <i class="fa-solid fa-users me-2" id="group_name"></i>Group Name
                 </h6>
                 <button type="button" id="invite_members" class="btn btn-primary btn-sm mt-2">Invite Members</button>
                 <button type="button" id="leave_group" class="btn btn-danger btn-sm mt-2">Leave Group</button>
@@ -779,8 +779,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
 
     //count members and pending invites
-    member_count();
-    pending_invites_count();
+    // member_count();
+    display_pending_invites();
 
     // Call existing functions and pass render functions
     display_group_members(renderGroupMembers);
