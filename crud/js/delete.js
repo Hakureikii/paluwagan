@@ -19,6 +19,6 @@ $(document).on('click', '.decline-invitation', function () {
 //auto delete groups after a week
 function auto_delete_groups() {
    $.get("../../crud/php/auto_delete_groups.php", function(response) {
-      alert(response);
+      return;
    })
 }

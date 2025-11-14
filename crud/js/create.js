@@ -30,3 +30,19 @@ function send_member_invites(selected_members) {
       display_pending_invites();
    })
 }
+
+
+function deposit(amount) {
+   $.post("../../crud/php/deposit.php", {amount :amount}, function(response) {
+      if (response === "complete") {
+         alert("Transaction Complete!");
+      }
+   });
+}
+
+
+function start_rotation(status) {
+   $.post("../../crud/php/start_rotation.php", {status: status}, function(response) {
+      alert(response);
+   });
+}

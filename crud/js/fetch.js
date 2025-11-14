@@ -1,7 +1,6 @@
 // Fetch and display groups
 function display_groups() {
    $.get("../../crud/php/fetch_groups.php", function (response) {
-      alert(response)
       let groups = JSON.parse(response);
       let display = "";
 
@@ -130,6 +129,36 @@ function display_group_invitations() {
 
       // Replace all list items at once
       $("#group_invitations_list").html(display);
+   });
+}
+
+
+function fetch_unread_notifications() {
+   $.get("../../crud/php/fetch_unread_notifications.php",function(response) {
+      let unread = JSON.parse(response);
+
+      if (unread.length >0) {
+         $("#notifBadge").text(unread.length).show();
+      } else {
+         $("#notifBadge").hide();
+      }
+   });
+}
+
+
+function fetch_activity_logs() {
+   $.get("../../crud/php/activity_log.php", function(response) {
+      let activity = JSON.parse(response);
+      let display_activity = "";
+
+      activity.forEach(activity_log => {
+         display_activity += `<tr>
+            <td> ${activity_log.title} </td>
+            <td> ${activity_log.description} </td>
+            <td> ${activity_log.date} </td>
+         </tr>`
+      });
+      $("#activity-log-table").html(display_activity);
    });
 }
 

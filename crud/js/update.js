@@ -14,3 +14,10 @@ $(document).on('click', '.accept-invitation', function () {
          })
    }
 })
+
+
+$(document).on('click', '.notifications-link', function() {
+   $.post("../../crud/php/read_notifications.php", {is_read: 1}, function(response) {
+
+   });
+})

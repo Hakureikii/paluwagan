@@ -44,7 +44,6 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          margin: 0;
       }
 
-      /* Sidebar */
       .sidebar {
          width: 250px;
          background: var(--side);
@@ -65,6 +64,24 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          font-weight: 700;
          margin-bottom: 20px;
          text-align: center;
+      }
+
+      .notifications-link {
+         position: relative;
+         display: inline-block;
+      }
+
+      .notif-badge {
+         position: absolute;
+         top: -5px;
+         right: -10px;
+         background: red;
+         color: white;
+         font-size: 10px;
+         font-weight: bold;
+         padding: 2px 6px;
+         border-radius: 50%;
+         display: none;
       }
 
       .nav-links {
@@ -111,10 +128,6 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          transition: .3s;
       }
 
-      .theme-toggle:hover {
-         transform: rotate(15deg);
-      }
-
       .sidebar-close {
          position: absolute;
          top: 10px;
@@ -125,10 +138,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          color: var(--text);
       }
 
-      /* Main content */
       .main-content {
          margin-left: 250px;
-         margin-right: 15px;
          flex: 1;
          padding: 30px;
          display: flex;
@@ -136,7 +147,6 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          gap: 20px;
          transition: margin .3s ease;
          width: 100%;
-         box-sizing: border-box;
       }
 
       .top-bar {
@@ -144,7 +154,6 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          justify-content: space-between;
          align-items: center;
          flex-wrap: wrap;
-         gap: 10px;
       }
 
       .welcome {
@@ -157,65 +166,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          font-size: 1.5rem;
          border: none;
          background: none;
-         color: var(--text);
          cursor: pointer;
-      }
-
-      /* Deposit/Withdraw + Wallet */
-      .balance-container {
-         display: flex;
-         align-items: center;
-         gap: 10px;
-         flex-wrap: wrap;
-      }
-
-      .action-btn {
-         border: 2px solid transparent;
-         border-radius: 8px;
-         padding: 8px 14px;
-         font-size: .9rem;
-         cursor: pointer;
-         background: transparent;
-         transition: .3s;
-         font-weight: 500;
-         text-align: center;
-      }
-
-      .deposit-btn {
-         color: #198754;
-         border-color: #198754;
-      }
-
-      .deposit-btn:hover {
-         background: #198754;
-         color: #fff;
-      }
-
-      .withdraw-btn {
-         color: #dc3545;
-         border-color: #dc3545;
-      }
-
-      .withdraw-btn:hover {
-         background: #dc3545;
-         color: #fff;
-      }
-
-      .balance-badge {
-         background: var(--card);
-         padding: 6px 14px;
-         border-radius: 25px;
-         box-shadow: 0 2px 6px var(--shadow);
-         font-weight: 600;
-         display: flex;
-         align-items: center;
-         gap: 6px;
-      }
-
-      .balance-eye {
-         cursor: pointer;
-         font-size: 1rem;
-         color: var(--text);
       }
 
       .card-box {
@@ -225,7 +176,6 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          padding: 25px;
       }
 
-      /* Responsive */
       @media (max-width: 991px) {
          .sidebar {
             left: -250px;
@@ -245,56 +195,14 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
          .main-content {
             margin-left: 0;
-            margin-right: 10px;
-            width: 100%;
-         }
-
-         .overlay.active {
-            display: block;
-         }
-      }
-
-      @media (max-width: 576px) {
-         .sidebar { width: 220px; padding: 15px; }
-         .top-bar {
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            text-align: left;
-            gap: 8px;
-            flex-wrap: nowrap;
-         }
-         .welcome {
-            font-size: .85rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex-shrink: 1;
-         }
-         .balance-container {
-            flex-direction: row;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-         }
-         .top-bar .action-btn { display: none; }
-         .nav-links .action-btn {
-            display: block;
-            width: 100%;
-            margin-top: 10px;
-            font-size: .85rem;
-            padding: 8px 12px;
-         }
-         .nav-links .action-btn:first-of-type { margin-top: 15px; }
-         .balance-badge {
-            font-size: .8rem;
-            padding: 5px 12px;
          }
       }
    </style>
 </head>
 
 <body>
+
+   <!-- SIDEBAR -->
    <aside class="sidebar" id="sidebar">
       <i class="fa-solid fa-xmark sidebar-close" id="sidebarClose"></i>
 
@@ -306,7 +214,14 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             <a href="form_group.php" class="active"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
             <a href="join_group.php"><i class="fa-solid fa-users"></i>Join Group</a>
             <a href="view_group.php"><i class="fa-solid fa-eye"></i>My Groups</a>
-            <a href="notifications.php"><i class="fa-solid fa-bell"></i>Notifications</a>
+
+            <a href="notifications.php" class="notifications-link">
+               <i class="fa-solid fa-bell"></i>Notifications
+               <span class="notif-badge" id="notifBadge">0</span>
+            </a>
+
+            <a href="activity_log.php"><i class="fa-solid fa-clock-rotate-left"></i> Activity Log </a>
+
             <button class="action-btn deposit-btn">Deposit</button>
             <button class="action-btn withdraw-btn">Withdraw</button>
          </nav>
@@ -318,15 +233,11 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                <i class="fa-solid fa-sun"></i>
             </button>
          </div>
-         <div>
-            <a href="../../auth/php/logout.php" class="text-decoration-none text-danger">
-               <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
-            </a>
-         </div>
+         <a href="../../auth/php/logout.php" class="text-decoration-none text-danger">
+            <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+         </a>
       </div>
    </aside>
-
-   <div class="overlay" id="overlay"></div>
 
    <div class="main-content">
       <div class="top-bar">
@@ -336,16 +247,6 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
          <div class="welcome">
             Welcome, <strong><?php echo htmlspecialchars($_SESSION['member_name']); ?></strong>
-         </div>
-
-         <div class="balance-container">
-            <button class="action-btn deposit-btn">Deposit</button>
-            <button class="action-btn withdraw-btn">Withdraw</button>
-            <div class="balance-badge">
-               <i class="fa-solid fa-wallet"></i>
-               <span id="navBalance">₱12,450.00</span>
-               <i class="fa-solid fa-eye balance-eye" id="toggleBalance"></i>
-            </div>
          </div>
       </div>
 
@@ -357,107 +258,167 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             </button>
          </div>
 
-         <p class="text-muted">Create and manage your Paluwagan groups easily. Click “Add Group” to start a new one.</p>
+         <p class="text-muted">Create and manage your Paluwagan groups easily.</p>
       </div>
    </div>
 
-   <!-- Modal for Add Group -->
-   <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
+   <!-- ADD GROUP MODAL -->
+   <div class="modal fade" id="addGroupModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="addGroupModalLabel">
-                  <i class="fa-solid fa-users-gear me-2"></i> Create New Group
-               </h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Create New Group</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            <form id="form-add-group" class="modal-body">
-               <div class="mb-3">
-                  <label for="group_name" class="form-label">Group Name</label>
-                  <input type="text" id="group_name" class="form-control" placeholder="Enter group name" required>
+            <form id="form-add-group">
+               <div class="modal-body">
+
+                  <div class="mb-3">
+                     <label class="form-label">Group Name</label>
+                     <input type="text" id="group_name" class="form-control" required>
+                  </div>
+
+                  <div class="mb-3">
+                     <label class="form-label">Capacity</label>
+                     <input type="number" id="group_capacity" class="form-control" required>
+                  </div>
+
+                  <div id="error-message" class="text-danger small"></div>
                </div>
-               <div class="mb-3">
-                  <label for="group_capacity" class="form-label">Capacity</label>
-                  <input type="number" id="group_capacity" class="form-control" placeholder="Enter capacity" required>
-               </div>
-               <div id="error-message" class="text-danger small mb-2"></div>
+
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                  <button type="submit" class="btn btn-primary">Save Group</button>
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                     data-bs-target="#terms_and_conditions">Continue</button>
                </div>
             </form>
          </div>
       </div>
    </div>
 
+   <!-- TERMS & CONDITIONS MODAL -->
+   <div class="modal fade" id="terms_and_conditions" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+         <div class="modal-content">
+
+            <div class="modal-header">
+               <h5 class="modal-title"><i class="fa-solid fa-file-contract me-2"></i>Terms & Conditions</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+               <p class="text-muted small">
+                  <h6>1. Membership Commitment</h6>
+                  -Once you join the group, you are not allowed to leave until the group officially ends or until the group leader approves your exit. <br><br>
+                  -Leaving the group without notice, permission, or valid reason may result in restrictions from joining future groups or participation in related activities. <br><br>
+
+                  <h6> 2. Mandatory Contribution </h6>
+                  -All members are required to contribute according to the agreed schedule, amount, or tasks set by the group. <br><br>
+                  -Failure to contribute on time may result in penalties, delays, or removal of certain privileges within the group. <br><br>
+                  -Consistent non-compliance may lead to administrative action determined by the group leader or system administrator. <br><br>
+
+                  <h6> 3. Accuracy of Information </h6>
+                  -Members must provide true, accurate, and updated information when joining or participating in any group activity. <br><br>
+                  -Any form of misrepresentation may result in immediate removal and possible reporting to the system administrator. <br><br>
+
+                  <h6> 4. Respect and Proper Conduct </h6>
+                  -Members are expected to maintain respectful communication with other members and avoid disruptive behavior.<br><br>
+                  -Any form of harassment, discrimination, or abusive conduct may result in disciplinary action.<br><br>
+
+                  <h6> 5. Confidentiality </h6>
+                  -All group-related information (member details, contribution amounts, schedules, and internal discussions) must remain confidential and cannot be shared outside the group without permission.<br><br>
+
+                  <h6>6. System Monitoring </h6>
+                  -The system may record logs of your activities, contributions, and group interactions for transparency, auditing, and security purposes.<br><br>
+
+                  <h6>7. Acceptance of Terms </h6>
+                  -By clicking "Confirm", joining the group, or continuing participation, you acknowledge and accept all the terms and conditions stated above.<br><br>
+                  -Your confirmation serves as a binding agreement between you and the group/system.<br><br>
+               </p>
+            </div>
+
+            <div class="modal-footer">
+               <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+               <button type="button" id="confirmCreateGroup" class="btn btn-primary">
+                  Confirm & Create
+               </button>
+            </div>
+
+         </div>
+      </div>
+   </div>
+
    <script src="../../jquery.js"></script>
-   <script src="../../crud/js/create.js"></script>
    <script src="../../styles/js/bootstrap.bundle.min.js"></script>
+   <script src="../../crud/js/create.js"></script>
 
    <script>
       // Sidebar toggle
       const sidebar = document.getElementById("sidebar");
       const sidebarToggle = document.getElementById("sidebarToggle");
       const sidebarClose = document.getElementById("sidebarClose");
-      const overlay = document.getElementById("overlay");
 
-      sidebarToggle.addEventListener("click", () => {
-         sidebar.classList.toggle("active");
-         overlay.classList.toggle("active");
-      });
-      sidebarClose.addEventListener("click", () => {
-         sidebar.classList.remove("active");
-         overlay.classList.remove("active");
-      });
-      overlay.addEventListener("click", () => {
-         sidebar.classList.remove("active");
-         overlay.classList.remove("active");
-      });
+      sidebarToggle.onclick = () => sidebar.classList.add("active");
+      sidebarClose.onclick = () => sidebar.classList.remove("active");
 
       // Theme toggle
       const themeToggle = document.getElementById("themeToggle");
-      const icon = themeToggle.querySelector("i");
+      const themeIcon = themeToggle.querySelector("i");
+
       if (localStorage.getItem("theme") === "dark") {
          document.body.classList.add("dark-mode");
-         icon.classList.replace("fa-sun", "fa-moon");
+         themeIcon.classList.replace("fa-sun", "fa-moon");
       }
-      themeToggle.addEventListener("click", () => {
+
+      themeToggle.onclick = () => {
          document.body.classList.toggle("dark-mode");
          localStorage.setItem("theme",
-            document.body.classList.contains("dark-mode") ? "dark" : "light");
-      });
+            document.body.classList.contains("dark-mode") ? "dark" : "light"
+         );
 
-      // Balance visibility toggle
-      const balance = document.getElementById("navBalance");
-      const eye = document.getElementById("toggleBalance");
-      let visible = true;
+         themeIcon.classList.toggle("fa-sun");
+         themeIcon.classList.toggle("fa-moon");
+      };
 
-      eye.addEventListener("click", () => {
-         visible = !visible;
-         if (visible) {
-            balance.textContent = "₱12,450.00";
-            eye.classList.replace("fa-eye-slash", "fa-eye");
-         } else {
-            balance.textContent = "••••••••";
-            eye.classList.replace("fa-eye", "fa-eye-slash");
-         }
-      });
-
-      // Add Group form submit
-      $("#form-add-group").submit(function (e) {
-         e.preventDefault();
+      // FINAL SUBMIT BUTTON
+      $("#confirmCreateGroup").click(function () {
          let group_name = $("#group_name").val().trim();
          let capacity = $("#group_capacity").val().trim();
+
+         if (group_name === "" || capacity === "") {
+            $("#error-message").text("Please complete all fields.");
+            $("#terms_and_conditions").modal("hide");
+            $("#addGroupModal").modal("show");
+            return;
+         }
+
          form_group(group_name, capacity);
+
+         $("#terms_and_conditions").modal("hide");
          $("#addGroupModal").modal("hide");
       });
 
-      // Prevent cache issues
-      window.addEventListener("pageshow", function (event) {
-         if (event.persisted) window.location.reload();
+      // FETCH NOTIFICATIONS BADGE
+      function fetch_unread_notifications() {
+         $.get("../../crud/php/check_unread_notifications.php", function (count) {
+            if (count > 0) {
+               $("#notifBadge").text(count).show();
+            } else {
+               $("#notifBadge").hide();
+            }
+         });
+      }
+
+      fetch_unread_notifications();
+
+      $(".notifications-link").click(function () {
+         $.get("../../crud/php/mark_notifications_read.php", function () {
+            $("#notifBadge").hide();
+         });
       });
    </script>
-</body>
 
+</body>
 </html>

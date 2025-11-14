@@ -7,6 +7,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +22,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             --text: #212529;
             --side: #fff;
             --card: #fff;
-            --shadow: rgba(0,0,0,0.1);
+            --shadow: rgba(0, 0, 0, 0.1);
         }
 
         body.dark-mode {
@@ -29,7 +30,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             --text: #f8f9fa;
             --side: #212529;
             --card: #2c3034;
-            --shadow: rgba(0,0,0,0.5);
+            --shadow: rgba(0, 0, 0, 0.5);
         }
 
         body {
@@ -66,6 +67,25 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             text-align: center;
         }
 
+        .notifications-link {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: none;
+            /* hide by default */
+        }
+
         .nav-links {
             display: flex;
             flex-direction: column;
@@ -86,7 +106,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
         .nav-links a:hover,
         .nav-links a.active {
-            background: rgba(13,110,253,0.1);
+            background: rgba(13, 110, 253, 0.1);
             color: #0d6efd;
         }
 
@@ -95,7 +115,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         }
 
         .sidebar-footer {
-            border-top: 1px solid rgba(0,0,0,0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             padding-top: 10px;
             text-align: center;
             font-size: .9rem;
@@ -110,7 +130,9 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             transition: .3s;
         }
 
-        .theme-toggle:hover { transform: rotate(15deg); }
+        .theme-toggle:hover {
+            transform: rotate(15deg);
+        }
 
         .sidebar-close {
             position: absolute;
@@ -183,14 +205,20 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             border-color: #198754;
         }
 
-        .deposit-btn:hover { background: #198754; color: #fff; }
+        .deposit-btn:hover {
+            background: #198754;
+            color: #fff;
+        }
 
         .withdraw-btn {
             color: #dc3545;
             border-color: #dc3545;
         }
 
-        .withdraw-btn:hover { background: #dc3545; color: #fff; }
+        .withdraw-btn:hover {
+            background: #dc3545;
+            color: #fff;
+        }
 
         .balance-badge {
             background: var(--card);
@@ -203,7 +231,11 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             gap: 6px;
         }
 
-        .balance-eye { cursor: pointer; font-size: 1rem; color: var(--text); }
+        .balance-eye {
+            cursor: pointer;
+            font-size: 1rem;
+            color: var(--text);
+        }
 
         /* Card container */
         .card-box {
@@ -227,8 +259,15 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             box-shadow: 0 4px 12px var(--shadow);
         }
 
-        .group-card h5 { margin-bottom: 8px; font-weight: 600; }
-        .group-card span { color: gray; font-size: .9rem; }
+        .group-card h5 {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .group-card span {
+            color: gray;
+            font-size: .9rem;
+        }
 
         .join-btn {
             margin-top: 10px;
@@ -247,16 +286,39 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
         /* Responsive */
         @media (max-width: 991px) {
-            .sidebar { left: -250px; }
-            .sidebar.active { left: 0; }
-            .sidebar-close { display: block; }
-            .sidebar-toggler { display: block; }
-            .main-content { margin-left: 0; margin-right: 10px; width: 100%; }
-            .overlay.active { display: block; }
+            .sidebar {
+                left: -250px;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .sidebar-close {
+                display: block;
+            }
+
+            .sidebar-toggler {
+                display: block;
+            }
+
+            .main-content {
+                margin-left: 0;
+                margin-right: 10px;
+                width: 100%;
+            }
+
+            .overlay.active {
+                display: block;
+            }
         }
 
         @media (max-width: 576px) {
-            .sidebar { width: 220px; padding: 15px; }
+            .sidebar {
+                width: 220px;
+                padding: 15px;
+            }
+
             .top-bar {
                 flex-direction: row;
                 justify-content: space-between;
@@ -264,13 +326,35 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                 gap: 8px;
                 flex-wrap: nowrap;
             }
-            .welcome { font-size: .85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .balance-container { flex-direction: row; align-items: center; gap: 8px; }
-            .top-bar .action-btn { display: none; }
-            .nav-links .action-btn {
-                display: block; width: 100%; margin-top: 10px; font-size: .85rem; padding: 8px 12px;
+
+            .welcome {
+                font-size: .85rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
-            .nav-links .action-btn:first-of-type { margin-top: 15px; }
+
+            .balance-container {
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .top-bar .action-btn {
+                display: none;
+            }
+
+            .nav-links .action-btn {
+                display: block;
+                width: 100%;
+                margin-top: 10px;
+                font-size: .85rem;
+                padding: 8px 12px;
+            }
+
+            .nav-links .action-btn:first-of-type {
+                margin-top: 15px;
+            }
         }
     </style>
 </head>
@@ -287,7 +371,11 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                 <a href="form_group.php"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
                 <a href="join_group.php" class="active"><i class="fa-solid fa-users"></i>Join Group</a>
                 <a href="view_group.php"><i class="fa-solid fa-eye"></i>My Groups</a>
-                <a href="notifications.php"><i class="fa-solid fa-bell"></i>Notifications</a>
+                <a href="notifications.php" class="notifications-link">
+                    <i class="fa-solid fa-bell"></i>Notifications
+                    <span class="notif-badge" id="notifBadge">0</span>
+                </a>
+                <a href="activity_log.php"><i class="fa-solid fa-clock-rotate-left"></i> Activity Log </a>
                 <button class="action-btn deposit-btn">Deposit</button>
                 <button class="action-btn withdraw-btn">Withdraw</button>
             </nav>
@@ -320,7 +408,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             </div>
 
             <div class="balance-container">
-                <button class="action-btn deposit-btn">Deposit</button>
+                <button class="action-btn deposit-btn" data-bs-toggle="modal"
+                    data-bs-target="#deposit_money">Deposit</button>
                 <button class="action-btn withdraw-btn">Withdraw</button>
                 <div class="balance-badge">
                     <i class="fa-solid fa-wallet"></i>
@@ -336,12 +425,42 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         </div>
     </div>
 
+    <!-- Deposit Modal -->
+    <div class="modal fade" id="deposit_money" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Deposit amount</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="form-deposit-money">
+                        <input type="number" placeholder="Enter Amount" id="amount" required>
+                        <button type="submit" class="btn btn-sm btn-outline-success"> Deposit </button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
     <script src="../../jquery.js"></script>
+    <script src="../../crud/js/create.js"></script>
     <script src="../../crud/js/fetch.js"></script>
+    <script src="../../crud/js/update.js"></script>
     <script src="../../crud/js/delete.js"></script>
     <script src="../../styles/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        $("#form-deposit-money").submit(function (e) {
+            e.preventDefault();
+
+            let amount = $("#amount").val().trim();
+            deposit(amount);
+        });
+        
         // Sidebar + Theme logic same as other pages
         const sidebar = document.getElementById("sidebar");
         const sidebarToggle = document.getElementById("sidebarToggle");
@@ -391,6 +510,9 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         //display groups
         display_groups();
 
+        //display notification badge
+        fetch_unread_notifications();
+
         //auto delete groups every minute and refresh
         auto_delete_groups();
         setInterval(auto_delete_groups, 60000);
@@ -401,4 +523,5 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         });
     </script>
 </body>
+
 </html>

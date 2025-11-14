@@ -7,6 +7,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -62,6 +63,25 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             font-weight: 700;
             margin-bottom: 20px;
             text-align: center;
+        }
+
+        .notifications-link {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notif-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: red;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 50%;
+            display: none;
+            /* hide by default */
         }
 
         .nav-links {
@@ -500,260 +520,305 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         }
     </style>
 </head>
+
 <body>
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-    <i class="fa-solid fa-xmark sidebar-close" id="sidebarClose"></i>
-    <div>
-        <h4><i class="fa-solid fa-wallet me-2"></i>Paluwagan</h4>
-        <nav class="nav-links">
-            <a href="member_dashboard.php"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
-            <a href="form_group.php"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
-            <a href="join_group.php"><i class="fa-solid fa-users"></i>Join Group</a>
-            <a href="view_group.php" class="active"><i class="fa-solid fa-eye"></i>My Groups</a>
-            <a href="notifications.php"><i class="fa-solid fa-bell"></i>Notifications</a>
-            <button class="action-btn deposit-btn">Deposit</button>
-            <button class="action-btn withdraw-btn">Withdraw</button>
-        </nav>
-    </div>
-    <div class="sidebar-footer">
-        <div class="mb-2">
-            <button class="theme-toggle" id="themeToggle">
-                <i class="fa-solid fa-sun"></i>
-            </button>
-        </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <i class="fa-solid fa-xmark sidebar-close" id="sidebarClose"></i>
         <div>
-            <a href="../../auth/php/logout.php" class="text-decoration-none text-danger">
-                <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
-            </a>
-        </div>
-    </div>
-</aside>
+            <h4><i class="fa-solid fa-wallet me-2"></i>Paluwagan</h4>
+            <nav class="nav-links">
+                <a href="member_dashboard.php"><i class="fa-solid fa-chart-line"></i>Dashboard</a>
+                <a href="form_group.php"><i class="fa-solid fa-pen-to-square"></i>Form Group</a>
+                <a href="join_group.php"><i class="fa-solid fa-users"></i>Join Group</a>
+                <a href="view_group.php" class="active"><i class="fa-solid fa-eye"></i>My Groups</a>
+                <a href="notifications.php" class="notifications-link">
+                    <i class="fa-solid fa-bell"></i>Notifications
+                    <span class="notif-badge" id="notifBadge">0</span>
+                </a>
+                <a href="activity_log.php"><i class="fa-solid fa-clock-rotate-left"></i> Activity Log </a>
 
-<div class="overlay" id="overlay"></div>
-
-<!-- MAIN CONTENT -->
-<div class="main-content">
-    <!-- Top Bar -->
-    <div class="top-bar">
-        <button class="sidebar-toggler" id="sidebarToggle">
-            <i class="fa-solid fa-bars"></i>
-        </button>
-        <div class="welcome">
-            Welcome, <strong><?php echo htmlspecialchars($_SESSION['member_name']); ?></strong>
+                <button class="action-btn deposit-btn">Deposit</button>
+                <button class="action-btn withdraw-btn">Withdraw</button>
+            </nav>
         </div>
-        <div class="balance-container">
-            <button class="action-btn deposit-btn">Deposit</button>
-            <button class="action-btn withdraw-btn">Withdraw</button>
-            <div class="balance-badge">
-                <i class="fa-solid fa-wallet"></i>
-                <span id="navBalance">₱12,450.00</span>
-                <i class="fa-solid fa-eye balance-eye" id="toggleBalance"></i>
+        <div class="sidebar-footer">
+            <div class="mb-2">
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+            </div>
+            <div>
+                <a href="../../auth/php/logout.php" class="text-decoration-none text-danger">
+                    <i class="fa-solid fa-right-from-bracket me-1"></i>Logout
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <button class="sidebar-toggler" id="sidebarToggle">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="welcome">
+                Welcome, <strong><?php echo htmlspecialchars($_SESSION['member_name']); ?></strong>
+            </div>
+            <div class="balance-container">
+                <button class="action-btn deposit-btn" data-bs-toggle="modal"
+                    data-bs-target="#deposit_money">Deposit</button>
+                <button class="action-btn withdraw-btn">Withdraw</button>
+                <div class="balance-badge">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span id="navBalance">₱12,450.00</span>
+                    <i class="fa-solid fa-eye balance-eye" id="toggleBalance"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group Stats -->
+        <div class="dashboard-box">
+            <div class="stats">
+                <div class="stat-box">
+                    <h3 id="total_members"></h3>
+                    <p>Group Members</p>
+                </div>
+                <div class="stat-box">
+                    <h3 id="pending_invites_count"></h3>
+                    <p>Pending Invites</p>
+                </div>
+            </div>
+            <div class="analytics">
+                <div class="chart-box">
+                    <h6 id="group_name">
+                        <i class="fa-solid fa-users me-2" id="group_name"></i>Group Name
+                    </h6>
+                    <button type="button" id="start_rotation" class="btn btn-success btn-sm mt-2"><i class="fa-solid fa-sync"></i>
+                        Start Rotation </button>
+                    <button type="button" id="invite_members" class="btn btn-primary btn-sm mt-2"><i class="fa-solid fa-envelope-open-text"></i>
+                        Invite Members</button>
+                    <button type="button" id="leave_group" class="btn btn-danger btn-sm mt-2"><i class="fa-solid fa-right-from-bracket"></i>
+                        Leave Group</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Invites Table -->
+        <div class="balance-box">
+            <h6><i class="fa-solid fa-clock-rotate-left me-2"></i>Pending Invites</h6>
+            <div class="transaction-history">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Group Name</th>
+                            <th>Sender</th>
+                            <th>Receiver</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pending_invites_table"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Group Members Table -->
+        <div class="balance-box">
+            <h6><i class="fa-solid fa-users me-2"></i>Group Members</h6>
+            <div class="transaction-history">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody id="group_members_table"></tbody>
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- Group Stats -->
-    <div class="dashboard-box">
-        <div class="stats">
-            <div class="stat-box">
-                <h3 id="total_members"></h3>
-                <p>Group Members</p>
-            </div>
-            <div class="stat-box">
-                <h3 id="pending_invites_count"></h3>
-                <p>Pending Invites</p>
-            </div>
-        </div>
-        <div class="analytics">
-            <div class="chart-box">
-                <h6 id="group_name">
-                    <i class="fa-solid fa-users me-2" id="group_name"></i>Group Name
-                </h6>
-                <button type="button" id="invite_members" class="btn btn-primary btn-sm mt-2">Invite Members</button>
-                <button type="button" id="leave_group" class="btn btn-danger btn-sm mt-2">Leave Group</button>
+    <!-- Invite Modal -->
+    <div class="form_invite_members">
+        <form id="form-invite-members">
+            <input type="text" placeholder="Search Members" id="search_members" class="form-control mb-2">
+            <div id="search_results"></div>
+            <div id="selected_members">Invite members:</div>
+            <button type="button" id="send_invites" class="btn btn-success btn-sm mt-2">Send Invites</button>
+            <button type="button" id="close_modal" class="btn btn-secondary btn-sm mt-2">Close</button>
+        </form>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div class="modal fade" id="deposit_money" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Deposit amount</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="form-deposit-money">
+                        <input type="number" placeholder="Enter Amount" id="amount" required>
+                        <button type="submit" class="btn btn-sm btn-outline-success"> Deposit </button>
+                    </form>
+                </div>
+
+
             </div>
         </div>
     </div>
 
-    <!-- Pending Invites Table -->
-    <div class="balance-box">
-        <h6><i class="fa-solid fa-clock-rotate-left me-2"></i>Pending Invites</h6>
-        <div class="transaction-history">
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Group Name</th>
-                        <th>Sender</th>
-                        <th>Receiver</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="pending_invites_table"></tbody>
-            </table>
-        </div>
-    </div>
+    <script src="../../jquery.js"></script>
+    <script src="../../styles/js/bootstrap.bundle.min.js"></script>
+    <script src="../../crud/js/create.js"></script>
+    <script src="../../crud/js/fetch.js"></script>
+    <script src="../../crud/js/update.js"></script>
 
-    <!-- Group Members Table -->
-    <div class="balance-box">
-        <h6><i class="fa-solid fa-users me-2"></i>Group Members</h6>
-        <div class="transaction-history">
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody id="group_members_table"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
+    <script>
+        $("#form-deposit-money").submit(function (e) {
+            e.preventDefault();
 
-<!-- Invite Modal -->
-<div class="form_invite_members">
-    <form id="form-invite-members">
-        <input type="text" placeholder="Search Members" id="search_members" class="form-control mb-2">
-        <div id="search_results"></div>
-        <div id="selected_members">Invite members:</div>
-        <button type="button" id="send_invites" class="btn btn-success btn-sm mt-2">Send Invites</button>
-        <button type="button" id="close_modal" class="btn btn-secondary btn-sm mt-2">Close</button>
-    </form>
-</div>
+            let amount = $("#amount").val().trim();
+            deposit(amount);
+        });
 
-<script src="../../jquery.js"></script>
-<script src="../../styles/js/bootstrap.bundle.min.js"></script>
-<script src="../../crud/js/create.js"></script>
-<script src="../../crud/js/fetch.js"></script>
+        $(document).on('click', '#start_rotation', function() {
+            let status = "Ongoing";
+            start_rotation(status);
+        });
 
-<script>
-    const sidebar = document.getElementById("sidebar"),
-          sidebarToggle = document.getElementById("sidebarToggle"),
-          sidebarClose = document.getElementById("sidebarClose"),
-          overlay = document.getElementById("overlay");
+        const sidebar = document.getElementById("sidebar"),
+            sidebarToggle = document.getElementById("sidebarToggle"),
+            sidebarClose = document.getElementById("sidebarClose"),
+            overlay = document.getElementById("overlay");
 
-    sidebarToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-        overlay.classList.toggle("active");
-    });
+        sidebarToggle.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+            overlay.classList.toggle("active");
+        });
 
-    sidebarClose.addEventListener("click", () => {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-    });
+        sidebarClose.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
 
-    overlay.addEventListener("click", () => {
-        sidebar.classList.remove("active");
-        overlay.classList.remove("active");
-    });
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
 
-    const themeToggle = document.getElementById("themeToggle"),
-          icon = themeToggle.querySelector("i");
+        const themeToggle = document.getElementById("themeToggle"),
+            icon = themeToggle.querySelector("i");
 
-    if (localStorage.getItem("theme") === "dark") {
-        document.body.classList.add("dark-mode");
-        icon.classList.replace("fa-sun", "fa-moon");
-    }
-
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark-mode");
-        const isDark = document.body.classList.contains("dark-mode");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
-
-    const balance = document.getElementById("navBalance"),
-          eye = document.getElementById("toggleBalance");
-    let visible = true;
-
-    eye.addEventListener("click", () => {
-        visible = !visible;
-        if (visible) {
-            balance.textContent = "₱12,450.00";
-            eye.classList.replace("fa-eye-slash", "fa-eye");
-        } else {
-            balance.textContent = "••••••••";
-            eye.classList.replace("fa-eye", "fa-eye-slash");
+        if (localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-mode");
+            icon.classList.replace("fa-sun", "fa-moon");
         }
-    });
 
-    $(".form_invite_members").hide();
-    let selected_members = [];
+        themeToggle.addEventListener("click", () => {
+            document.body.classList.toggle("dark-mode");
+            const isDark = document.body.classList.contains("dark-mode");
+            localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
 
-    $(document).on('keyup', '#search_members', function () {
-        let search = $(this).val().trim();
-        if (search.length > 0) {
-            $.post("../../crud/php/search_members.php", { search: search }, function (response) {
-                let results = JSON.parse(response);
-                let html = '';
-                results.forEach(r => {
-                    html += `<div class="member_results" data-id="${r.member_id}">${r.full_name}</div>`;
+        const balance = document.getElementById("navBalance"),
+            eye = document.getElementById("toggleBalance");
+        let visible = true;
+
+        eye.addEventListener("click", () => {
+            visible = !visible;
+            if (visible) {
+                balance.textContent = "₱12,450.00";
+                eye.classList.replace("fa-eye-slash", "fa-eye");
+            } else {
+                balance.textContent = "••••••••";
+                eye.classList.replace("fa-eye", "fa-eye-slash");
+            }
+        });
+
+        $(".form_invite_members").hide();
+        let selected_members = [];
+
+        $(document).on('keyup', '#search_members', function () {
+            let search = $(this).val().trim();
+            if (search.length > 0) {
+                $.post("../../crud/php/search_members.php", { search: search }, function (response) {
+                    let results = JSON.parse(response);
+                    let html = '';
+                    results.forEach(r => {
+                        html += `<div class="member_results" data-id="${r.member_id}">${r.full_name}</div>`;
+                    });
+                    $("#search_results").html(html);
                 });
-                $("#search_results").html(html);
-            });
-        } else {
-            $("#search_results").html("");
-        }
-    });
+            } else {
+                $("#search_results").html("");
+            }
+        });
 
-    $(document).on('click', '.member_results', function () {
-        let member_id = $(this).data("id");
-        let member_name = $(this).text();
-        if (!selected_members.some(m => m.member_id === member_id)) {
-            selected_members.push({ member_id, member_name });
-            $("#selected_members").append(`
+        $(document).on('click', '.member_results', function () {
+            let member_id = $(this).data("id");
+            let member_name = $(this).text();
+            if (!selected_members.some(m => m.member_id === member_id)) {
+                selected_members.push({ member_id, member_name });
+                $("#selected_members").append(`
                 <div class="selected-member">
                     ${member_name}
                     <button class="remove" data-id="${member_id}">x</button>
                 </div>
             `);
-            $("#search_members").val("");
-        }
-    });
+                $("#search_members").val("");
+            }
+        });
 
-    $(document).on('click', '.remove', function () {
-        let member_id = $(this).data("id");
-        selected_members = selected_members.filter(m => m.member_id !== member_id);
-        $(this).parent().remove();
-    });
+        $(document).on('click', '.remove', function () {
+            let member_id = $(this).data("id");
+            selected_members = selected_members.filter(m => m.member_id !== member_id);
+            $(this).parent().remove();
+        });
 
-    $(document).on('click', '#send_invites', function () {
-        if (selected_members.length > 0) {
-            send_member_invites(selected_members.map(m => m.member_id));
-            $("#search_results").html("");
-            $("#selected_members").html("");
-        } else {
-            alert("Select members first.");
-        }
-    });
+        $(document).on('click', '#send_invites', function () {
+            if (selected_members.length > 0) {
+                send_member_invites(selected_members.map(m => m.member_id));
+                $("#search_results").html("");
+                $("#selected_members").html("");
+            } else {
+                alert("Select members first.");
+            }
+        });
 
-    $(document).on('click', '#invite_members', function () {
-        $(".form_invite_members").fadeIn(200);
-    });
+        $(document).on('click', '#invite_members', function () {
+            $(".form_invite_members").fadeIn(200);
+        });
 
-    $(document).on('click', '#close_modal', function () {
-        $(".form_invite_members").fadeOut(200);
-    });
+        $(document).on('click', '#close_modal', function () {
+            $(".form_invite_members").fadeOut(200);
+        });
 
-    $(document).on('click', '#leave_group', function () {
-        let member_id = <?php echo $_SESSION['member_id']; ?>;
-        if (confirm("Do you want to leave this group?")) {
-            $.post("../../crud/php/leave_group.php", { member_id: member_id }, function (response) {
-                if (response === "leave") {
-                    window.location.href = "member_dashboard.php";
-                } else {
-                    alert("You are not part of any group.");
-                }
-            });
-        }
-    });
+        $(document).on('click', '#leave_group', function () {
+            let member_id = <?php echo $_SESSION['member_id']; ?>;
+            if (confirm("Do you want to leave this group?")) {
+                $.post("../../crud/php/leave_group.php", { member_id: member_id }, function (response) {
+                    if (response === "leave") {
+                        window.location.href = "member_dashboard.php";
+                    } else {
+                        alert("You are not part of any group.");
+                    }
+                });
+            }
+        });
 
-    // Load group data with data-labels for mobile
-    function renderPendingInvites(data) {
-        $("#pending_invites_table").html('');
-        data.forEach((row, i) => {
-            $("#pending_invites_table").append(`
+        // Load group data with data-labels for mobile
+        function renderPendingInvites(data) {
+            $("#pending_invites_table").html('');
+            data.forEach((row, i) => {
+                $("#pending_invites_table").append(`
                 <tr>
                     <td data-label="No.">${i + 1}</td>
                     <td data-label="Group Name">${row.group_name}</td>
@@ -762,38 +827,46 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                     <td data-label="Status">${row.status}</td>
                 </tr>
             `);
-        });
-    }
+            });
+        }
 
-    function renderGroupMembers(data) {
-        $("#group_members_table").html('');
-        data.forEach((row, i) => {
-            $("#group_members_table").append(`
+        function renderGroupMembers(data) {
+            $("#group_members_table").html('');
+            data.forEach((row, i) => {
+                $("#group_members_table").append(`
                 <tr>
                     <td data-label="No.">${i + 1}</td>
                     <td data-label="Name">${row.member_name}</td>
                 </tr>
             `);
-        });
-    }
-
-
-    //count members and pending invites
-    // member_count();
-    display_pending_invites();
-
-    // Call existing functions and pass render functions
-    display_group_members(renderGroupMembers);
-    display_group_name();
-    display_pending_invites(renderPendingInvites);
-
-    // Prevent back navigation
-    window.addEventListener("pageshow", function (event) {
-        if (event.persisted) {
-            window.location.reload();
+            });
         }
-    });
-</script>
+
+
+        //count members and pending invites
+        // member_count();
+        display_pending_invites();
+
+        //display notification badge
+        fetch_unread_notifications();
+
+        // Call existing functions and pass render functions
+        display_group_members(renderGroupMembers);
+        display_group_name();
+        display_pending_invites(renderPendingInvites);
+
+        // Prevent back navigation
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+
+        window.addEventListener("pageshow", function (event) {
+            if (event.persisted) window.location.reload();
+        });
+    </script>
 
 </body>
+
 </html>
