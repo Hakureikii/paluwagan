@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2025 at 07:10 AM
+-- Generation Time: Nov 14, 2025 at 12:41 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `paluwagan`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_logs`
+--
+
+CREATE TABLE `activity_logs` (
+  `logs_id` int(11) NOT NULL,
+  `title` text NOT NULL,
+  `description` text NOT NULL,
+  `date_time_created` datetime NOT NULL,
+  `member_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `activity_logs`
+--
+
+INSERT INTO `activity_logs` (`logs_id`, `title`, `description`, `date_time_created`, `member_id`) VALUES
+(1, 'Transaction: Deposit', 'You Deposited: ₱400.00', '2025-11-21 11:23:32', 23),
+(2, 'Transaction: Deposit', 'You Deposited: ₱400.00', '2025-11-21 11:54:46', 22),
+(3, 'Transaction: Deposit', 'You Deposited: ₱500.00', '2025-11-21 11:58:06', 22),
+(4, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-21 12:15:32', 22),
+(5, 'Transaction: Deposit', 'You Deposited: ₱500.00', '2025-11-14 13:29:34', 23),
+(6, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-14 13:48:38', 24);
 
 -- --------------------------------------------------------
 
@@ -59,7 +85,8 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`group_id`, `group_name`, `group_capacity`, `date_created`, `creator_id`) VALUES
-(19, 'Banog', 6, '2025-10-24', 22);
+(19, 'Banog', 6, '2025-10-24', 22),
+(21, 'Lilam\'s Group', 6, '2025-11-14', 24);
 
 -- --------------------------------------------------------
 
@@ -72,6 +99,22 @@ CREATE TABLE `group_invitations` (
   `sender_id` int(11) NOT NULL,
   `reciever_id` int(11) NOT NULL,
   `group_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `group_rotation`
+--
+
+CREATE TABLE `group_rotation` (
+  `rotation_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `current_member_id` int(11) NOT NULL,
+  `rotation_status` text NOT NULL,
+  `total_pot` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -104,7 +147,32 @@ INSERT INTO `member` (`member_id`, `last_name`, `first_name`, `middle_name`, `ba
 (11, 'bai', 'bai', 'bai', 'bai', 'bai', 'bai', 'bai@gmail.com', '$2y$10$7toWc6nh1aK7Rbv9XD./yuR9u1zxOxg7MWBTgRcwoQwsCP5w7gI4q', 'C:\\fakepath\\Screenshot 2025-10-02 160847.png', '09987654321', NULL),
 (12, 'sakjdfh', 'sahfkash', 'sajshfksjh', 'asfhkasfh', 'safhsakdfh', 'askfhskadh', 'bai@gmail.com', '$2y$10$sLSgqYTsdXu4VNtTQr/GEOoqo6dxzUgdJMM4Tf9EjDBstvzuyUZ4a', 'C:\\fakepath\\Screenshot 2025-10-02 181416.png', '0998764321', NULL),
 (22, 'Casaquite', 'Kenneth', 'Alfonso', 'Sibacungan', 'Lambunao', 'Iloilo', 'casaquitekenneth@gmail.com', '$2y$10$wPrt32jCs1vLMZZIFkBPY.6Aoq5x9Ev3Cw15.FNJmmZn7xdAwaW22', 'C:\\fakepath\\download (4).jpg', '09621848506', 19),
-(23, 'Gimeno', 'Sean Ivan', 'Andales', 'Manaolan', 'Badiangan', 'Iloilo', 'gimeno@gmail.com', '$2y$10$VPQG5O9kRfU9nx6xkcCj8.ymCHb.dLhePKK3YU4G2I6IAJzJBdFTO', 'C:\\fakepath\\download (3).jpg', '09123456789', NULL);
+(23, 'Gimeno', 'Sean Ivan', 'Andales', 'Manaolan', 'Badiangan', 'Iloilo', 'gimeno@gmail.com', '$2y$10$VPQG5O9kRfU9nx6xkcCj8.ymCHb.dLhePKK3YU4G2I6IAJzJBdFTO', 'C:\\fakepath\\download (3).jpg', '09123456789', 19),
+(24, 'Arana', 'Cathlene Ann', 'Lilam', 'Corot-on', 'Lambunao', 'Iloilo', 'arana@gmail.com', '$2y$10$OtJ5o5KJYz1GocsQO1WNVOjzDVfCHCFwuVG0JF7uyrCK/0CKJ36sm', 'C:\\fakepath\\Screenshot 2025-09-27 235451.png', '09112223333', 21);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `notification_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `description` text NOT NULL,
+  `is_read` tinyint(4) NOT NULL,
+  `date_time_created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`notification_id`, `member_id`, `description`, `is_read`, `date_time_created`) VALUES
+(1, 23, 'You are invited to join a group!', 1, '2025-11-13 13:18:25'),
+(2, 23, 'You are invited to join a group!', 1, '2025-11-13 14:19:54'),
+(3, 23, 'You are invited to join a group!', 1, '2025-11-13 14:27:45'),
+(4, 23, 'You are invited to join a group!', 1, '2025-11-14 06:29:12');
 
 -- --------------------------------------------------------
 
@@ -121,8 +189,26 @@ CREATE TABLE `transactions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`transaction_id`, `transaction_type`, `transaction_date_time`, `amount`, `member_id`) VALUES
+(2, 'Deposit', '2025-11-21 11:54:46', 400, 22),
+(3, 'Deposit', '2025-11-21 11:58:06', 500, 22),
+(4, 'Deposit', '2025-11-21 12:15:32', 1000, 22),
+(5, 'Deposit', '2025-11-14 13:29:34', 500, 23),
+(6, 'Deposit', '2025-11-14 13:48:38', 1000, 24);
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD PRIMARY KEY (`logs_id`),
+  ADD KEY `member_id` (`member_id`);
 
 --
 -- Indexes for table `admin`
@@ -147,6 +233,12 @@ ALTER TABLE `group_invitations`
   ADD KEY `group_invitations_ibfk_1` (`group_id`);
 
 --
+-- Indexes for table `group_rotation`
+--
+ALTER TABLE `group_rotation`
+  ADD PRIMARY KEY (`rotation_id`);
+
+--
 -- Indexes for table `member`
 --
 ALTER TABLE `member`
@@ -154,14 +246,28 @@ ALTER TABLE `member`
   ADD KEY `member_ibfk_1` (`group_id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`notification_id`),
+  ADD KEY `member_id` (`member_id`);
+
+--
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
+  ADD PRIMARY KEY (`transaction_id`),
   ADD KEY `member_id` (`member_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -173,23 +279,47 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `group_invitations`
 --
 ALTER TABLE `group_invitations`
-  MODIFY `invitation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `invitation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `group_rotation`
+--
+ALTER TABLE `group_rotation`
+  MODIFY `rotation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `transactions`
+--
+ALTER TABLE `transactions`
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD CONSTRAINT `activity_logs_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 
 --
 -- Constraints for table `group_invitations`
@@ -204,6 +334,12 @@ ALTER TABLE `group_invitations`
 --
 ALTER TABLE `member`
   ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD CONSTRAINT `notifications_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
 
 --
 -- Constraints for table `transactions`
