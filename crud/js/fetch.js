@@ -17,9 +17,10 @@ function display_groups() {
                         <div>
                             <h5 class="mb-1">${group.group_name}</h5>
                             <small>Capacity: ${group.group_capacity}</small><br>
-                            <small>Members Joined: ${group.member_count}</small>
+                            <small>Members Joined: ${group.member_count}</small><br>
+                            <small>Current Pot Money: ₱1000</small>
                         </div>
-                        <button class="join-btn btn btn-success" data-id="${group.group_id}">
+                        <button class="join-btn btn btn-success" data-group-id="${group.group_id}">
                             <i class="fa-solid fa-user-plus me-1"></i> Join
                         </button>
                     </div>
@@ -73,6 +74,7 @@ function display_pending_invites() {
 function display_group_name() {
    $.get("../../crud/php/fetch_group_name.php", function (response) {
       if (response === "no group") {
+         $("#start_rotation").prop("disabled", true);
          $("#invite_members").prop("disabled", true);
          $("#leave_group").prop("disabled", true);
          $(".pending_invites_table").hide();
@@ -80,6 +82,7 @@ function display_group_name() {
          $("#group_name").html("Wala ka pa group bai");
       } else {
          let group = JSON.parse(response);
+         $("#start_rotation").prop("disabled", false);
          $("#invite_members").prop("disabled", false);
          $("#leave_group").prop("disabled", false);
          $(".pending_invites_table").show()
@@ -90,54 +93,118 @@ function display_group_name() {
 }
 
 
-function display_group_invitations() {
-   $.get("../../crud/php/fetch_group_invitations.php", function (response) {
-      const invitations = JSON.parse(response);
-      let display = "";
+function load_all_notifications() {
 
-      if (invitations.length === 0) {
-         display = `
-                <li class="list-group-item text-center text-muted">
-                    No invitations found.
-                </li>
-            `;
-      } else {
-         invitations.forEach(inv => {
-            display += `
-                    <li class="list-group-item">
-                        <div class="item-info">
-                            <strong>${inv.group_name}</strong>
-                            <span>From: ${inv.sender}</span>
-                            <span>To: ${inv.reciever}</span>
-                        </div>
-                        <div class="item-footer">
-                            <button 
-                                class="action-btn deposit-btn btn-sm accept-invitation" 
-                                data-id="${inv.group_id}">
-                                Accept
-                            </button>
-                            <button 
-                                class="action-btn withdraw-btn btn-sm decline-invitation" 
-                                data-id="${inv.group_id}">
-                                Decline
-                            </button>
-                        </div>
-                    </li>
-                `;
-         });
-      }
+   // 1) Fetch group invitations
+   $.get("../../crud/php/fetch_group_invitations.php", function (invResponse) {
+      const invitations = JSON.parse(invResponse);
 
-      // Replace all list items at once
-      $("#group_invitations_list").html(display);
-   });
+      // 2) Fetch normal notifications
+      $.get("../../crud/php/notifications.php", function (notifResponse) {
+         const notifications = JSON.parse(notifResponse);
+
+         // 3) Fetch join requests
+         $.get("../../crud/php/fetch_join_requests.php", function (joinResponse) {
+            let joinRequests = [];
+
+            if (joinResponse !== "none") {
+               joinRequests = JSON.parse(joinResponse);
+            }
+
+            let display = "";
+
+            // If ALL are empty
+            if (
+               invitations.length === 0 &&
+               notifications.length === 0 &&
+               joinRequests.length === 0
+            ) {
+               display = `
+                        <li class="list-group-item text-center text-muted">
+                            No notifications.
+                        </li>
+                    `;
+            }
+
+            // --- JOIN REQUESTS ---
+            joinRequests.forEach(req => {
+               display += `
+                        <li class="list-group-item">
+                            <div class="item-info">
+                                <strong>Join Request:</strong>
+                                <span>From: ${req.sender}</span>
+                                <span>Message: ${req.message}</span>
+                            </div>
+
+                            <div class="item-footer mt-2">
+                                <button class="btn btn-success btn-sm accept-request" 
+                                        data-member-id="${req.member_id}">
+                                    Accept
+                                </button>
+
+                                <button class="btn btn-danger btn-sm decline-request" 
+                                        data-member-id="${req.member_id}">
+                                    Decline
+                                </button>
+                            </div>
+                        </li>
+                    `;
+            });
+
+            // --- GROUP INVITATIONS ---
+            invitations.forEach(inv => {
+               display += `
+                        <li class="list-group-item">
+                            <div class="item-info">
+                                <strong>Group Invitation:</strong>
+                                <span>Group: ${inv.group_name}</span>
+                                <span>From: ${inv.sender}</span>
+                            </div>
+
+                            <div class="item-footer mt-2">
+                                <button class="btn btn-success btn-sm accept-invitation" 
+                                        data-id="${inv.group_id}">
+                                    Accept
+                                </button>
+
+                                <button class="btn btn-danger btn-sm decline-invitation" 
+                                        data-id="${inv.group_id}">
+                                    Decline
+                                </button>
+                            </div>
+                        </li>
+                    `;
+            });
+
+            // --- NORMAL NOTIFICATIONS ---
+            notifications.forEach(notif => {
+               display += `
+                        <li class="list-group-item">
+                            <div class="item-info">
+                                <strong>Notification:</strong>
+                                <span>${notif.description}</span>
+                                <span class="text-muted">${notif.date}</span>
+                            </div>
+                        </li>
+                    `;
+            });
+            // Render ALL notifications in the same list
+            $("#all_notifications_list").html(display);
+
+         }); // end join request
+      }); // end notifications
+   }); // end invitations
 }
 
 
+
+
+
 function fetch_unread_notifications() {
-   $.get("../../crud/php/fetch_unread_notifications.php",function(response) {
+   $.get("../../crud/php/fetch_unread_notifications.php", function (response) {
       let unread = JSON.parse(response);
 
-      if (unread.length >0) {
+      if (unread.length > 0) {
          $("#notifBadge").text(unread.length).show();
       } else {
          $("#notifBadge").hide();
@@ -146,8 +213,28 @@ function fetch_unread_notifications() {
 }
 
 
+function notify_payout() {
+   $.get("../../crud/php/notify_payout.php", function (response) {
+      if (response === "not yet") {
+         return;
+      }
+   });
+}
+
+
+function notify_end_cycle() {
+   $.get("../../crud/php/notify_end.php", function (response) {
+      if (response === "end") {
+         let myModal = new bootstrap.Modal(document.getElementById('end_cycle'));
+         myModal.show();
+      }
+   });
+}
+
+
+
 function fetch_activity_logs() {
-   $.get("../../crud/php/activity_log.php", function(response) {
+   $.get("../../crud/php/activity_log.php", function (response) {
       let activity = JSON.parse(response);
       let display_activity = "";
 

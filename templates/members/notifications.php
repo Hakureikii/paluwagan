@@ -412,9 +412,12 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         </div>
 
         <div class="card-box">
-            <h2>Group Invitations</h2>
-            <ul class="list-group" id="group_invitations_list"></ul>
+            <h2>Notifications</h2>
+            <ul class="list-group" id="all_notifications_list"></ul>
         </div>
+
+
+
     </div>
 
     <!-- Deposit Modal -->
@@ -438,8 +441,52 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         </div>
     </div>
 
+    <!-- Accepted Request Modal -->
+    <div class="modal fade" id="request_accepted" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Request Accepted</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>The join request is accepted!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Declined Request Modal -->
+    <div class="modal fade" id="request_declined" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Request Declined</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>The join request is declined!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
     <script src="../../jquery.js"></script>
-    <script src="../../crud/js/create   .js"></script>
+    <script src="../../crud/js/create.js"></script>
     <script src="../../crud/js/fetch.js"></script>
     <script src="../../crud/js/delete.js"></script>
     <script src="../../crud/js/update.js"></script>
@@ -506,7 +553,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             }
         });
 
-        display_group_invitations();
+        load_all_notifications();
+        notify_payout();
 
         // Reload page on browser back navigation
         window.addEventListener("pageshow", function (event) {

@@ -577,13 +577,32 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
     </div>
   </div>
 
+  <!-- End Cycle Modal -->
+  <div class="modal fade" id="end_cycle" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Whole Rotation Ended</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p> The whole group rotation ended. Do you still want to stay with the group?</p>
+          <button type="button" class="btn btn-outline-success btn-sm stay-btn" data-bs-dismiss="modal"> Stay </button>
+          <button type="button" class="btn btn-outline-danger btn-sm leave-btn"> Leave Group </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="../../jquery.js"></script>
   <script src="../../crud/js/create.js"></script>
   <script src="../../crud/js/fetch.js"></script>
   <script src="../../crud/js/update.js"></script>
+  <script src="../../crud/js/delete.js"></script>
   <script src="../../styles/js/bootstrap.bundle.min.js"></script>
   <script>
+
     $("#form-deposit-money").submit(function (e) {
       e.preventDefault();
 
@@ -591,8 +610,20 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
       deposit(amount);
     });
 
-    //unread notifications
+    // unread notifications
     fetch_unread_notifications();
+
+    // send payout notification
+    notify_payout();
+
+    // notify end of rotation
+    notify_end_cycle();
+
+    // modal leave group
+    $(document).on('click', '.leave-btn', function () {
+      let member_id = <?php echo $_SESSION["member_id"]; ?>;
+      leave_group(member_id);
+    })
 
     // Sidebar toggle
     const sidebar = document.getElementById("sidebar"),

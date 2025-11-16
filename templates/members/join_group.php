@@ -446,6 +446,28 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         </div>
     </div>
 
+    <!-- Sent Request Modal -->
+    <div class="modal fade" id="request_sent" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Request Sent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>The request has been sent successfully!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <script src="../../jquery.js"></script>
     <script src="../../crud/js/create.js"></script>
     <script src="../../crud/js/fetch.js"></script>

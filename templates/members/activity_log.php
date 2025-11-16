@@ -578,6 +578,9 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
     // Fetch activity logs
     fetch_activity_logs();
 
+    //display notification badge
+    fetch_unread_notifications();
+
     // Sidebar toggle
     const sidebar = document.getElementById("sidebar");
     const sidebarToggle = document.getElementById("sidebarToggle");

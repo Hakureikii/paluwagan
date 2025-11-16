@@ -597,11 +597,14 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                     <h6 id="group_name">
                         <i class="fa-solid fa-users me-2" id="group_name"></i>Group Name
                     </h6>
-                    <button type="button" id="start_rotation" class="btn btn-success btn-sm mt-2"><i class="fa-solid fa-sync"></i>
+                    <button type="button" id="start_rotation" class="btn btn-success btn-sm mt-2"><i
+                            class="fa-solid fa-sync"></i>
                         Start Rotation </button>
-                    <button type="button" id="invite_members" class="btn btn-primary btn-sm mt-2"><i class="fa-solid fa-envelope-open-text"></i>
+                    <button type="button" id="invite_members" class="btn btn-primary btn-sm mt-2"><i
+                            class="fa-solid fa-envelope-open-text"></i>
                         Invite Members</button>
-                    <button type="button" id="leave_group" class="btn btn-danger btn-sm mt-2"><i class="fa-solid fa-right-from-bracket"></i>
+                    <button type="button" id="leave_group" class="btn btn-danger btn-sm mt-2"><i
+                            class="fa-solid fa-right-from-bracket"></i>
                         Leave Group</button>
                 </div>
             </div>
@@ -675,6 +678,29 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         </div>
     </div>
 
+    <!-- Rotation Start Modal -->
+    <div class="modal fade" id="rotationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Rotation Started</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>The rotation has been successfully initialized. All members now have their schedules!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-success" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <script src="../../jquery.js"></script>
     <script src="../../styles/js/bootstrap.bundle.min.js"></script>
     <script src="../../crud/js/create.js"></script>
@@ -689,7 +715,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             deposit(amount);
         });
 
-        $(document).on('click', '#start_rotation', function() {
+        $(document).on('click', '#start_rotation', function () {
             let status = "Ongoing";
             start_rotation(status);
         });
