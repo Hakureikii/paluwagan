@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2025 at 12:41 PM
+-- Generation Time: Nov 16, 2025 at 12:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,23 @@ INSERT INTO `activity_logs` (`logs_id`, `title`, `description`, `date_time_creat
 (3, 'Transaction: Deposit', 'You Deposited: ₱500.00', '2025-11-21 11:58:06', 22),
 (4, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-21 12:15:32', 22),
 (5, 'Transaction: Deposit', 'You Deposited: ₱500.00', '2025-11-14 13:29:34', 23),
-(6, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-14 13:48:38', 24);
+(6, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-14 13:48:38', 24),
+(7, 'Transaction: Deposit', 'You Deposited: ₱5090', '2025-11-16 10:03:57', 25),
+(8, 'Transaction: Deposit', 'You Deposited: ₱700', '2025-11-16 10:04:12', 25),
+(9, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 10:45:02', 25),
+(10, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 10:45:51', 25),
+(11, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:47:34', 25),
+(12, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:51:49', 25),
+(13, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:59:32', 25),
+(14, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:59:42', 25),
+(15, 'Transaction: Deposit', 'You Deposited: ₱45', '2025-11-16 11:00:00', 25),
+(16, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:45', 25),
+(17, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:45', 25),
+(18, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:46', 25),
+(19, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:46', 25),
+(20, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 19:09:56', 25),
+(21, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 19:10:25', 25),
+(22, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 19:24:37', 25);
 
 -- --------------------------------------------------------
 
@@ -148,7 +164,8 @@ INSERT INTO `member` (`member_id`, `last_name`, `first_name`, `middle_name`, `ba
 (12, 'sakjdfh', 'sahfkash', 'sajshfksjh', 'asfhkasfh', 'safhsakdfh', 'askfhskadh', 'bai@gmail.com', '$2y$10$sLSgqYTsdXu4VNtTQr/GEOoqo6dxzUgdJMM4Tf9EjDBstvzuyUZ4a', 'C:\\fakepath\\Screenshot 2025-10-02 181416.png', '0998764321', NULL),
 (22, 'Casaquite', 'Kenneth', 'Alfonso', 'Sibacungan', 'Lambunao', 'Iloilo', 'casaquitekenneth@gmail.com', '$2y$10$wPrt32jCs1vLMZZIFkBPY.6Aoq5x9Ev3Cw15.FNJmmZn7xdAwaW22', 'C:\\fakepath\\download (4).jpg', '09621848506', 19),
 (23, 'Gimeno', 'Sean Ivan', 'Andales', 'Manaolan', 'Badiangan', 'Iloilo', 'gimeno@gmail.com', '$2y$10$VPQG5O9kRfU9nx6xkcCj8.ymCHb.dLhePKK3YU4G2I6IAJzJBdFTO', 'C:\\fakepath\\download (3).jpg', '09123456789', 19),
-(24, 'Arana', 'Cathlene Ann', 'Lilam', 'Corot-on', 'Lambunao', 'Iloilo', 'arana@gmail.com', '$2y$10$OtJ5o5KJYz1GocsQO1WNVOjzDVfCHCFwuVG0JF7uyrCK/0CKJ36sm', 'C:\\fakepath\\Screenshot 2025-09-27 235451.png', '09112223333', 21);
+(24, 'Arana', 'Cathlene Ann', 'Lilam', 'Corot-on', 'Lambunao', 'Iloilo', 'arana@gmail.com', '$2y$10$OtJ5o5KJYz1GocsQO1WNVOjzDVfCHCFwuVG0JF7uyrCK/0CKJ36sm', 'C:\\fakepath\\Screenshot 2025-09-27 235451.png', '09112223333', 21),
+(25, 'Bay', 'na', 'bay', 'BAY', 'bay', 'bay', 'baybay@gmail.com', '$2y$10$SNbpWJxHhS5/pOqywzWiVOYxWEqSHBzkbMVodKhZ9TJUs0ldkQVVu', 'C:\\fakepath\\images (2).jpg', '03949139123', NULL);
 
 -- --------------------------------------------------------
 
@@ -197,7 +214,35 @@ INSERT INTO `transactions` (`transaction_id`, `transaction_type`, `transaction_d
 (3, 'Deposit', '2025-11-21 11:58:06', 500, 22),
 (4, 'Deposit', '2025-11-21 12:15:32', 1000, 22),
 (5, 'Deposit', '2025-11-14 13:29:34', 500, 23),
-(6, 'Deposit', '2025-11-14 13:48:38', 1000, 24);
+(6, 'Deposit', '2025-11-14 13:48:38', 1000, 24),
+(7, 'Deposit', '2025-11-16 10:03:57', 5090, 25),
+(8, 'Deposit', '2025-11-16 10:04:12', 700, 25),
+(9, 'Deposit', '2025-11-16 10:45:02', 33, 25),
+(10, 'Deposit', '2025-11-16 10:45:51', 33, 25),
+(11, 'Deposit', '2025-11-16 10:47:34', 3, 25),
+(12, 'Deposit', '2025-11-16 10:51:49', 3, 25),
+(13, 'Deposit', '2025-11-16 10:59:32', 3, 25),
+(14, 'Deposit', '2025-11-16 10:59:42', 3, 25),
+(15, 'Deposit', '2025-11-16 11:00:00', 45, 25),
+(16, 'Deposit', '2025-11-16 11:00:45', 33, 25),
+(17, 'Deposit', '2025-11-16 11:00:45', 33, 25),
+(18, 'Deposit', '2025-11-16 11:00:46', 33, 25),
+(19, 'Deposit', '2025-11-16 11:00:46', 33, 25),
+(20, 'Deposit', '2025-11-16 19:09:56', 3, 25),
+(21, 'Deposit', '2025-11-16 19:10:25', 33, 25),
+(22, 'Deposit', '2025-11-16 19:24:37', 33, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_balance`
+--
+
+CREATE TABLE `user_balance` (
+  `member_id` int(11) NOT NULL,
+  `transaction_id` int(11) NOT NULL,
+  `current_balance` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -260,6 +305,13 @@ ALTER TABLE `transactions`
   ADD KEY `member_id` (`member_id`);
 
 --
+-- Indexes for table `user_balance`
+--
+ALTER TABLE `user_balance`
+  ADD KEY `user_id` (`member_id`,`transaction_id`),
+  ADD KEY `transaction_id` (`transaction_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -267,7 +319,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -297,7 +349,7 @@ ALTER TABLE `group_rotation`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `notifications`
@@ -309,7 +361,7 @@ ALTER TABLE `notifications`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Constraints for dumped tables
@@ -346,6 +398,13 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
+
+--
+-- Constraints for table `user_balance`
+--
+ALTER TABLE `user_balance`
+  ADD CONSTRAINT `user_balance_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
+  ADD CONSTRAINT `user_balance_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`transaction_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

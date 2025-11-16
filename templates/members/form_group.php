@@ -17,185 +17,32 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
    <style>
-      :root {
-         --bg: #f8f9fa;
-         --text: #212529;
-         --side: #fff;
-         --card: #fff;
-         --shadow: rgba(0, 0, 0, 0.1);
-      }
+      :root { --bg:#f8f9fa; --text:#212529; --side:#fff; --card:#fff; --shadow:rgba(0,0,0,0.1); }
+      body.dark-mode { --bg:#181a1b; --text:#f8f9fa; --side:#212529; --card:#2c3034; --shadow:rgba(0,0,0,0.5); }
+      body { background:var(--bg); color:var(--text); font-family:"Segoe UI",sans-serif; transition:.3s; display:flex; min-height:100vh; overflow-x:hidden; margin:0; }
+      .sidebar { width:250px; background:var(--side); box-shadow:2px 0 10px var(--shadow); display:flex; flex-direction:column; justify-content:space-between; position:fixed; top:0; bottom:0; left:0; padding:20px 15px; transition:left .3s ease; z-index:200; }
+      .sidebar h4 { font-weight:700; margin-bottom:20px; text-align:center; }
+      .notifications-link { position:relative; display:inline-block; }
+      .notif-badge { position:absolute; top:-5px; right:-10px; background:red; color:#fff; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:50%; display:none; }
+      .nav-links { display:flex; flex-direction:column; gap:6px; }
+      .nav-links a { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; text-decoration:none; color:var(--text); font-weight:500; transition:.2s; }
+      .nav-links a:hover, .nav-links a.active { background:rgba(13,110,253,0.1); color:#0d6efd; }
+      .nav-links .action-btn { display:none; }
+      .sidebar-footer { border-top:1px solid rgba(0,0,0,0.1); padding-top:10px; text-align:center; font-size:.9rem; }
+      .theme-toggle { background:none; border:none; font-size:1.3rem; cursor:pointer; color:var(--text); transition:.3s; }
+      .sidebar-close { position:absolute; top:10px; right:15px; font-size:1.3rem; cursor:pointer; display:none; color:var(--text); }
+      .main-content { margin-left:250px; flex:1; padding:30px; display:flex; flex-direction:column; gap:20px; transition:margin .3s ease; width:100%; }
+      .top-bar { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+      .welcome { margin-right:auto; font-weight:500; }
+      .sidebar-toggler { display:none; font-size:1.5rem; border:none; background:none; cursor:pointer; }
+      .card-box { background:var(--card); box-shadow:0 6px 16px var(--shadow); border-radius:12px; padding:25px; }
 
-      body.dark-mode {
-         --bg: #181a1b;
-         --text: #f8f9fa;
-         --side: #212529;
-         --card: #2c3034;
-         --shadow: rgba(0, 0, 0, 0.5);
-      }
-
-      body {
-         background: var(--bg);
-         color: var(--text);
-         font-family: "Segoe UI", sans-serif;
-         transition: .3s;
-         display: flex;
-         min-height: 100vh;
-         overflow-x: hidden;
-         margin: 0;
-      }
-
-      .sidebar {
-         width: 250px;
-         background: var(--side);
-         box-shadow: 2px 0 10px var(--shadow);
-         display: flex;
-         flex-direction: column;
-         justify-content: space-between;
-         position: fixed;
-         top: 0;
-         bottom: 0;
-         left: 0;
-         padding: 20px 15px;
-         transition: left .3s ease;
-         z-index: 200;
-      }
-
-      .sidebar h4 {
-         font-weight: 700;
-         margin-bottom: 20px;
-         text-align: center;
-      }
-
-      .notifications-link {
-         position: relative;
-         display: inline-block;
-      }
-
-      .notif-badge {
-         position: absolute;
-         top: -5px;
-         right: -10px;
-         background: red;
-         color: white;
-         font-size: 10px;
-         font-weight: bold;
-         padding: 2px 6px;
-         border-radius: 50%;
-         display: none;
-      }
-
-      .nav-links {
-         display: flex;
-         flex-direction: column;
-         gap: 6px;
-      }
-
-      .nav-links a {
-         display: flex;
-         align-items: center;
-         gap: 10px;
-         padding: 10px 12px;
-         border-radius: 8px;
-         text-decoration: none;
-         color: var(--text);
-         font-weight: 500;
-         transition: .2s;
-      }
-
-      .nav-links a:hover,
-      .nav-links a.active {
-         background: rgba(13, 110, 253, 0.1);
-         color: #0d6efd;
-      }
-
-      .nav-links .action-btn {
-         display: none;
-      }
-
-      .sidebar-footer {
-         border-top: 1px solid rgba(0, 0, 0, 0.1);
-         padding-top: 10px;
-         text-align: center;
-         font-size: .9rem;
-      }
-
-      .theme-toggle {
-         background: none;
-         border: none;
-         font-size: 1.3rem;
-         cursor: pointer;
-         color: var(--text);
-         transition: .3s;
-      }
-
-      .sidebar-close {
-         position: absolute;
-         top: 10px;
-         right: 15px;
-         font-size: 1.3rem;
-         cursor: pointer;
-         display: none;
-         color: var(--text);
-      }
-
-      .main-content {
-         margin-left: 250px;
-         flex: 1;
-         padding: 30px;
-         display: flex;
-         flex-direction: column;
-         gap: 20px;
-         transition: margin .3s ease;
-         width: 100%;
-      }
-
-      .top-bar {
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         flex-wrap: wrap;
-      }
-
-      .welcome {
-         margin-right: auto;
-         font-weight: 500;
-      }
-
-      .sidebar-toggler {
-         display: none;
-         font-size: 1.5rem;
-         border: none;
-         background: none;
-         cursor: pointer;
-      }
-
-      .card-box {
-         background: var(--card);
-         box-shadow: 0 6px 16px var(--shadow);
-         border-radius: 12px;
-         padding: 25px;
-      }
-
-      @media (max-width: 991px) {
-         .sidebar {
-            left: -250px;
-         }
-
-         .sidebar.active {
-            left: 0;
-         }
-
-         .sidebar-close {
-            display: block;
-         }
-
-         .sidebar-toggler {
-            display: block;
-         }
-
-         .main-content {
-            margin-left: 0;
-         }
+      @media (max-width:991px) {
+         .sidebar { left:-250px; }
+         .sidebar.active { left:0; }
+         .sidebar-close { display:block; }
+         .sidebar-toggler { display:block; }
+         .main-content { margin-left:0; }
       }
    </style>
 </head>
