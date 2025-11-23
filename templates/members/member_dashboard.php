@@ -316,6 +316,16 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
       color: #fff;
     }
 
+    .action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+      background: transparent !important;
+      color: #6c757d !important;
+      border-color: #6c757d !important;
+    }
+
+
     /* Hide sidebar buttons by default */
     .nav-links .action-btn {
       display: none;
@@ -500,7 +510,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
       <div class="welcome">Welcome, <strong><?php echo htmlspecialchars($_SESSION['member_name']); ?></strong></div>
       <div class="balance-container">
         <button class="action-btn deposit-btn" data-bs-toggle="modal" data-bs-target="#deposit_money">Deposit</button>
-        <button class="action-btn withdraw-btn">Withdraw</button>
+        <button class="action-btn withdraw-btn" data-bs-toggle="modal"
+          data-bs-target="#withdraw_money">Withdraw</button>
         <div class="balance-badge">
           <i class="fa-solid fa-wallet"></i>
           <span id="navBalance">₱12,450.00</span>
@@ -559,20 +570,51 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
   <!-- Deposit Modal -->
   <div class="modal fade" id="deposit_money" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="fa-solid fa-users-gear me-2"></i>Deposit amount</h5>
+      <div class="modal-content rounded-4 shadow-sm">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">
+            <i class="fa-solid fa-wallet me-2"></i>Deposit Funds
+          </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-
         <div class="modal-body">
           <form id="form-deposit-money">
-            <input type="number" placeholder="Enter Amount" id="amount" required>
-            <button type="submit" class="btn btn-sm btn-outline-success"> Deposit </button>
+            <div class="mb-3">
+              <label for="amount" class="form-label fw-semibold">Amount</label>
+              <input type="number" class="form-control form-control-lg" id="amount" placeholder="₱0.00" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100 fw-semibold">Deposit</button>
           </form>
         </div>
+      </div>
+    </div>
+  </div>
 
-
+  <!-- Withdraw Modal -->
+  <div class="modal fade" id="withdraw_money" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content rounded-4 shadow-sm">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">
+            <i class="fa-solid fa-arrow-up-from-bracket me-2"></i>Withdraw Funds
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="form-withdraw-money">
+            <div class="mb-3">
+              <label for="withdraw_amount" class="form-label fw-semibold">Amount</label>
+              <input type="number" class="form-control form-control-lg" id="withdraw_amount" placeholder="₱0.00"
+                required>
+            </div>
+            <div class="mb-3">
+              <label for="wallet_number" class="form-label fw-semibold">GCash / Wallet Number</label>
+              <input type="text" class="form-control form-control-lg" id="wallet_number" placeholder="09XXXXXXXXX"
+                required>
+            </div>
+            <button type="submit" class="btn btn-danger w-100 fw-semibold">Withdraw</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -610,14 +652,26 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
       deposit(amount);
     });
 
+    $("#form-withdraw-money").submit(function (e) {
+      e.preventDefault();
+
+      let amount = $("#withdraw_amount").val().trim();
+      withdraw(amount);
+    })
+
     // unread notifications
     fetch_unread_notifications();
+
+    // notify end of rotation
+    notify_end_cycle();
+
+    // check if member is in a group
+    check_group_status();
 
     // send payout notification
     notify_payout();
 
-    // notify end of rotation
-    notify_end_cycle();
+    enable_withdrawal();
 
     // modal leave group
     $(document).on('click', '.leave-btn', function () {

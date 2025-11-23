@@ -47,6 +47,17 @@ $(document).on('click', '.join-btn', function () {
 
 function deposit(amount) {
    $.post("../../crud/php/deposit.php", { amount: amount }, function (response) {
+      alert(response)
+      if (response === "complete") {
+         alert("Transaction Complete!");
+      }
+   });
+}
+
+
+function withdraw(amount) {
+   $.post("../../crud/php/withdraw.php", { amount: amount }, function (response) {
+      alert(response)
       if (response === "complete") {
          alert("Transaction Complete!");
       }
@@ -56,10 +67,13 @@ function deposit(amount) {
 
 function start_rotation(status) {
    $.post("../../crud/php/start_rotation.php", { status: status }, function (response) {
-
       // If PHP returns "rotation started!"
       if (response.trim() === "rotation started!") {
          let rotationModal = new bootstrap.Modal(document.getElementById('rotationModal'));
+         rotationModal.show();
+         ongoing_rotation();
+      } else {
+         let rotationModal = new bootstrap.Modal(document.getElementById('rotationModalFail'));
          rotationModal.show();
       }
    });
@@ -67,10 +81,10 @@ function start_rotation(status) {
 
 
 // accept join requests
-$(document).on('click', '.accept-request', function() {
+$(document).on('click', '.accept-request', function () {
    let member_id = $(this).data("member-id");
 
-   $.post("../../crud/php/accept_request.php", {member_id: member_id}, function(accept_response) {
+   $.post("../../crud/php/accept_request.php", { member_id: member_id }, function (accept_response) {
       if (accept_response === "accepted request") {
          let modal_accept = new bootstrap.Modal(document.getElementById('request_accepted'));
          modal_accept.show();

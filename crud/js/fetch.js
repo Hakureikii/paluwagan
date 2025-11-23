@@ -17,8 +17,8 @@ function display_groups() {
                         <div>
                             <h5 class="mb-1">${group.group_name}</h5>
                             <small>Capacity: ${group.group_capacity}</small><br>
-                            <small>Members Joined: ${group.member_count}</small><br>
-                            <small>Current Pot Money: ₱1000</small>
+                            <small>Members Joined: ${group.total_members}</small><br>
+                            <small>Current Pot Money: ₱${group.total_contributions}</small>
                         </div>
                         <button class="join-btn btn btn-success" data-group-id="${group.group_id}">
                             <i class="fa-solid fa-user-plus me-1"></i> Join
@@ -197,9 +197,6 @@ function load_all_notifications() {
 }
 
 
-
-
-
 function fetch_unread_notifications() {
    $.get("../../crud/php/fetch_unread_notifications.php", function (response) {
       let unread = JSON.parse(response);
@@ -215,7 +212,7 @@ function fetch_unread_notifications() {
 
 function notify_payout() {
    $.get("../../crud/php/notify_payout.php", function (response) {
-      if (response === "not yet") {
+      if (response === "Already notified or not yet") {
          return;
       }
    });
@@ -230,7 +227,6 @@ function notify_end_cycle() {
       }
    });
 }
-
 
 
 function fetch_activity_logs() {
@@ -250,10 +246,53 @@ function fetch_activity_logs() {
 }
 
 
-//count members and pending invites
-// function member_count() {
-//    $.get("../../crud/php/fetch_groups.php", function (response) {
-//       let member_count = JSON.parse(response)
-//       alert(member_count.member_count);
-//    })
-// }
+// CHECK IF MEMBER IS IN A GROUP
+function check_group_status() {
+   $.get("../../crud/php/check_group_status.php", function (response) {
+      response = response.trim();
+
+      if (response === "false") {
+         // Top bar buttons
+         $(".main-content .deposit-btn").prop("disabled", true);
+         $(".main-content .withdraw-btn").prop("disabled", true);
+
+         // Sidebar buttons
+         $(".nav-links .deposit-btn").prop("disabled", true);
+      } else {
+         // Top bar buttons
+         $(".main-content .deposit-btn").prop("disabled", false);
+         $(".main-content .withdraw-btn").prop("disabled", true);
+
+         // Sidebar buttons
+         $(".nav-links .deposit-btn").prop("disabled", false);
+         $(".main-content .withdraw-btn").prop("disabled", true);
+      }
+   });
+}
+
+
+function ongoing_rotation() {
+   $.get("../../crud/php/start_rotation_button.php", function (response) {
+      if (response === "enable") {
+         $(".start-rotation-btn").prop("disabled", false);
+      } else if (response === "disable") {
+         $(".start-rotation-btn").prop("disabled", true);
+      } else {
+         alert(response);
+      }
+   });
+}
+
+
+
+function enable_withdrawal() {
+   $.get("../../crud/php/enable_withdrawal.php", function (response) {
+      if (response === "disable") {
+         $(".main-content .withdraw-btn").prop("disabled", true);
+      } else if (response === "enable") {
+         $(".main-content .withdraw-btn").prop("disabled", false);
+      } else {
+         alert(response);
+      }
+   });
+}

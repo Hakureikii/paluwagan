@@ -40,6 +40,8 @@ if ($member_group_status["group_id"] == null) {
          ":member_id" => $creator_id
       ]);
 
+      $_SESSION["member_group"] = $group_id;
+
       echo "success";
 
    } else {

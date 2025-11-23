@@ -17,6 +17,15 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: transparent !important;
+            color: #6c757d !important;
+            border-color: #6c757d !important;
+        }
+
         :root {
             --bg: #f8f9fa;
             --text: #212529;
@@ -482,7 +491,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             let amount = $("#amount").val().trim();
             deposit(amount);
         });
-        
+
         // Sidebar + Theme logic same as other pages
         const sidebar = document.getElementById("sidebar");
         const sidebarToggle = document.getElementById("sidebarToggle");
@@ -534,6 +543,14 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
         //display notification badge
         fetch_unread_notifications();
+
+        // check if member is in a group
+        check_group_status();
+
+        // send payout notification
+        notify_payout();
+
+        enable_withdrawal();
 
         //auto delete groups every minute and refresh
         auto_delete_groups();

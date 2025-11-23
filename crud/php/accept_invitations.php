@@ -11,7 +11,7 @@ $stmt->execute([
    ":group_id"=> $group_id,
    ":member_id"=> $member_id,
 ]);
-
+$_SESSION["member_group"] = $group_id;
 echo "invite accepted";
 
 //remove pending invite after accepting

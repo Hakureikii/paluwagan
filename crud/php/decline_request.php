@@ -15,14 +15,14 @@ $delete->execute([
 
 
 // notify member after declining
-$notify = $conn->prepare("INSERT INTO notifications(member_id, description, is_read, date_time_created) 
-VALUES(:member_id, :description, :is_read, :date_time)");
-$notify->execute([
-    ":member_id" => $member_id,
-    ":description" => "The leader declined your join request",
-    ":is_read" => 0,
-    ":date_time" => $date_time
-]);
+// $notify = $conn->prepare("INSERT INTO notifications(member_id, description, is_read, date_time_created) 
+// VALUES(:member_id, :description, :is_read, :date_time)");
+// $notify->execute([
+//     ":member_id" => $member_id,
+//     ":description" => "The leader declined your join request",
+//     ":is_read" => 0,
+//     ":date_time" => $date_time
+// ]);
 
 echo "request declined";
 ?>

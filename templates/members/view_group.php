@@ -15,6 +15,15 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
     <link rel="stylesheet" href="../../styles/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <style>
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: transparent !important;
+            color: #6c757d !important;
+            border-color: #6c757d !important;
+        }
+
         :root {
             --bg: #f8f9fa;
             --text: #212529;
@@ -597,7 +606,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                     <h6 id="group_name">
                         <i class="fa-solid fa-users me-2" id="group_name"></i>Group Name
                     </h6>
-                    <button type="button" id="start_rotation" class="btn btn-success btn-sm mt-2"><i
+                    <button type="button" id="start_rotation" class="btn btn-success btn-sm mt-2 start-rotation-btn"><i
                             class="fa-solid fa-sync"></i>
                         Start Rotation </button>
                     <button type="button" id="invite_members" class="btn btn-primary btn-sm mt-2"><i
@@ -694,6 +703,28 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
                 <div class="modal-footer">
                     <button class="btn btn-success" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Rotation Start Modal Fail -->
+    <div class="modal fade" id="rotationModalFail" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">No Amount Deposited Yet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Please have an initial deposit first!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
                 </div>
 
             </div>
@@ -880,6 +911,17 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         display_group_members(renderGroupMembers);
         display_group_name();
         display_pending_invites(renderPendingInvites);
+
+        // check if member is in a group
+        check_group_status();
+
+        // notify end of rotation
+        ongoing_rotation();
+
+        // send payout notification
+        notify_payout();
+
+        enable_withdrawal();
 
         // Prevent back navigation
         window.addEventListener("pageshow", function (event) {
