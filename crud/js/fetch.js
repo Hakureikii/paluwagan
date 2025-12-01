@@ -1,6 +1,7 @@
 // Fetch and display groups
 function display_groups() {
    $.get("../../crud/php/fetch_groups.php", function (response) {
+      console.log(response)
       let groups = JSON.parse(response);
       let display = "";
 
@@ -291,6 +292,19 @@ function enable_withdrawal() {
          $(".main-content .withdraw-btn").prop("disabled", true);
       } else if (response === "enable") {
          $(".main-content .withdraw-btn").prop("disabled", false);
+      } else {
+         alert(response);
+      }
+   });
+}
+
+
+function leave_group_button() {
+   $.get("../../crud/php/leave_group_button.php", function (response) {
+      if (response === "disable") {
+         $(".leave-group-btn").prop("disabled", true);
+      } else if (response === "enable") {
+         $(".leave-group-btn").prop("disabled", false);
       } else {
          alert(response);
       }

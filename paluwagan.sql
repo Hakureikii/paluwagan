@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2025 at 12:25 PM
+-- Generation Time: Dec 01, 2025 at 06:54 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,28 +40,7 @@ CREATE TABLE `activity_logs` (
 --
 
 INSERT INTO `activity_logs` (`logs_id`, `title`, `description`, `date_time_created`, `member_id`) VALUES
-(1, 'Transaction: Deposit', 'You Deposited: ₱400.00', '2025-11-21 11:23:32', 23),
-(2, 'Transaction: Deposit', 'You Deposited: ₱400.00', '2025-11-21 11:54:46', 22),
-(3, 'Transaction: Deposit', 'You Deposited: ₱500.00', '2025-11-21 11:58:06', 22),
-(4, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-21 12:15:32', 22),
-(5, 'Transaction: Deposit', 'You Deposited: ₱500.00', '2025-11-14 13:29:34', 23),
-(6, 'Transaction: Deposit', 'You Deposited: ₱1000.00', '2025-11-14 13:48:38', 24),
-(7, 'Transaction: Deposit', 'You Deposited: ₱5090', '2025-11-16 10:03:57', 25),
-(8, 'Transaction: Deposit', 'You Deposited: ₱700', '2025-11-16 10:04:12', 25),
-(9, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 10:45:02', 25),
-(10, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 10:45:51', 25),
-(11, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:47:34', 25),
-(12, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:51:49', 25),
-(13, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:59:32', 25),
-(14, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 10:59:42', 25),
-(15, 'Transaction: Deposit', 'You Deposited: ₱45', '2025-11-16 11:00:00', 25),
-(16, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:45', 25),
-(17, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:45', 25),
-(18, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:46', 25),
-(19, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 11:00:46', 25),
-(20, 'Transaction: Deposit', 'You Deposited: ₱3', '2025-11-16 19:09:56', 25),
-(21, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 19:10:25', 25),
-(22, 'Transaction: Deposit', 'You Deposited: ₱33', '2025-11-16 19:24:37', 25);
+(1, 'Transaction: Deposit', 'You Deposited: ₱2000', '2025-11-30 09:56:06', 22);
 
 -- --------------------------------------------------------
 
@@ -194,6 +173,21 @@ INSERT INTO `notifications` (`notification_id`, `member_id`, `description`, `is_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `rotation_schedule`
+--
+
+CREATE TABLE `rotation_schedule` (
+  `rotation_schedule_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `assigned_month` date NOT NULL,
+  `status` varchar(25) NOT NULL,
+  `to_withdraw` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transactions`
 --
 
@@ -202,47 +196,16 @@ CREATE TABLE `transactions` (
   `transaction_type` varchar(155) NOT NULL,
   `transaction_date_time` datetime NOT NULL,
   `amount` float NOT NULL,
-  `member_id` int(11) NOT NULL
+  `member_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `transactions`
 --
 
-INSERT INTO `transactions` (`transaction_id`, `transaction_type`, `transaction_date_time`, `amount`, `member_id`) VALUES
-(2, 'Deposit', '2025-11-21 11:54:46', 400, 22),
-(3, 'Deposit', '2025-11-21 11:58:06', 500, 22),
-(4, 'Deposit', '2025-11-21 12:15:32', 1000, 22),
-(5, 'Deposit', '2025-11-14 13:29:34', 500, 23),
-(6, 'Deposit', '2025-11-14 13:48:38', 1000, 24),
-(7, 'Deposit', '2025-11-16 10:03:57', 5090, 25),
-(8, 'Deposit', '2025-11-16 10:04:12', 700, 25),
-(9, 'Deposit', '2025-11-16 10:45:02', 33, 25),
-(10, 'Deposit', '2025-11-16 10:45:51', 33, 25),
-(11, 'Deposit', '2025-11-16 10:47:34', 3, 25),
-(12, 'Deposit', '2025-11-16 10:51:49', 3, 25),
-(13, 'Deposit', '2025-11-16 10:59:32', 3, 25),
-(14, 'Deposit', '2025-11-16 10:59:42', 3, 25),
-(15, 'Deposit', '2025-11-16 11:00:00', 45, 25),
-(16, 'Deposit', '2025-11-16 11:00:45', 33, 25),
-(17, 'Deposit', '2025-11-16 11:00:45', 33, 25),
-(18, 'Deposit', '2025-11-16 11:00:46', 33, 25),
-(19, 'Deposit', '2025-11-16 11:00:46', 33, 25),
-(20, 'Deposit', '2025-11-16 19:09:56', 3, 25),
-(21, 'Deposit', '2025-11-16 19:10:25', 33, 25),
-(22, 'Deposit', '2025-11-16 19:24:37', 33, 25);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_balance`
---
-
-CREATE TABLE `user_balance` (
-  `member_id` int(11) NOT NULL,
-  `transaction_id` int(11) NOT NULL,
-  `current_balance` int(11) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `transactions` (`transaction_id`, `transaction_type`, `transaction_date_time`, `amount`, `member_id`, `group_id`) VALUES
+(1, 'Deposit', '2025-11-30 09:56:06', 2000, 22, 19);
 
 --
 -- Indexes for dumped tables
@@ -298,18 +261,17 @@ ALTER TABLE `notifications`
   ADD KEY `member_id` (`member_id`);
 
 --
+-- Indexes for table `rotation_schedule`
+--
+ALTER TABLE `rotation_schedule`
+  ADD PRIMARY KEY (`rotation_schedule_id`);
+
+--
 -- Indexes for table `transactions`
 --
 ALTER TABLE `transactions`
   ADD PRIMARY KEY (`transaction_id`),
   ADD KEY `member_id` (`member_id`);
-
---
--- Indexes for table `user_balance`
---
-ALTER TABLE `user_balance`
-  ADD KEY `user_id` (`member_id`,`transaction_id`),
-  ADD KEY `transaction_id` (`transaction_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -319,7 +281,7 @@ ALTER TABLE `user_balance`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -358,10 +320,16 @@ ALTER TABLE `notifications`
   MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `rotation_schedule`
+--
+ALTER TABLE `rotation_schedule`
+  MODIFY `rotation_schedule_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -398,13 +366,6 @@ ALTER TABLE `notifications`
 --
 ALTER TABLE `transactions`
   ADD CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`);
-
---
--- Constraints for table `user_balance`
---
-ALTER TABLE `user_balance`
-  ADD CONSTRAINT `user_balance_ibfk_1` FOREIGN KEY (`member_id`) REFERENCES `member` (`member_id`),
-  ADD CONSTRAINT `user_balance_ibfk_2` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`transaction_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -556,7 +556,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
       </div>
     </div>
 
-    <div class="balance-box">
+    <!-- <div class="balance-box">
       <h6><i class="fa-solid fa-clock-rotate-left me-2"></i>Recent Transactions</h6>
       <div class="transaction-history">
         <div class="transaction-item"><span>Deposit</span><span class="credit">+₱500.00</span></div>
@@ -564,7 +564,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         <div class="transaction-item"><span>Withdrawal</span><span class="debit">-₱100.00</span></div>
         <div class="transaction-item"><span>Deposit</span><span class="credit">+₱1,000.00</span></div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Deposit Modal -->

@@ -72,6 +72,7 @@ function start_rotation(status) {
          let rotationModal = new bootstrap.Modal(document.getElementById('rotationModal'));
          rotationModal.show();
          ongoing_rotation();
+         leave_group_button();
       } else {
          let rotationModal = new bootstrap.Modal(document.getElementById('rotationModalFail'));
          rotationModal.show();
