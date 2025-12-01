@@ -296,6 +296,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
          </div>
       </div>
    </div>
+   
 
    <!-- TERMS & CONDITIONS MODAL -->
    <div class="modal fade" id="terms_and_conditions" tabindex="-1">

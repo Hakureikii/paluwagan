@@ -14,12 +14,25 @@ $contributions = $conn->prepare("
     INNER JOIN groups as g ON g.group_id = m.group_id
     WHERE t.group_id = :group_id
 ");
+
+
 $contributions->execute([":group_id" => $group_id]);
 $total_pot = $contributions->fetch(PDO::FETCH_COLUMN);
+
+
+// count group members
+$count = $conn -> prepare("SELECT COUNT(*) as members FROM member WHERE group_id =:group_id");
+$count -> execute([
+    ":group_id" => $group_id
+]);
+$count_members = $count -> fetch(PDO::FETCH_COLUMN);
 
 if ($total_pot === null) {
     echo "need initial deposit";
     
+} else if($count_members < 6) {
+    echo  "insufficient members";
+
 } else {
     // retrieve all member ids
     $stmt = $conn->prepare("SELECT member_id FROM member WHERE group_id = :group_id ORDER BY member_id ASC");

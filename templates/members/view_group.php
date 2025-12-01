@@ -580,10 +580,11 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             <div class="balance-container">
                 <button class="action-btn deposit-btn" data-bs-toggle="modal"
                     data-bs-target="#deposit_money">Deposit</button>
-                <button class="action-btn withdraw-btn">Withdraw</button>
+                <button class="action-btn withdraw-btn" data-bs-toggle="modal"
+                    data-bs-target="#withdraw_money">Withdraw</button>
                 <div class="balance-badge">
                     <i class="fa-solid fa-wallet"></i>
-                    <span id="navBalance">₱12,450.00</span>
+                    <span id="navBalance"></span>
                     <i class="fa-solid fa-eye balance-eye" id="toggleBalance"></i>
                 </div>
             </div>
@@ -705,16 +706,82 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                         <div class="mb-3">
                             <label for="withdraw_amount" class="form-label fw-semibold">Amount</label>
                             <input type="number" class="form-control form-control-lg" id="withdraw_amount"
-                                placeholder="₱0.00" required>
+                                placeholder="₱0.00" required disabled>
                         </div>
                         <div class="mb-3">
                             <label for="wallet_number" class="form-label fw-semibold">GCash / Wallet Number</label>
                             <input type="text" class="form-control form-control-lg" id="wallet_number"
-                                placeholder="09XXXXXXXXX" required>
+                                placeholder="09XXXXXXXXX" value="<?php echo $_SESSION["contact"] ?>" required>
                         </div>
                         <button type="submit" class="btn btn-danger w-100 fw-semibold">Withdraw</button>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Invites sent Modal -->
+    <div class="modal fade" id="invites_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Invites Sent!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You have successfully sent member invites!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Success Modal -->
+    <div class="modal fade" id="doneDepositModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Deposit Successful!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You have successfully deposited!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Success Modal -->
+    <div class="modal fade" id="doneWithdrawModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Withdrawal Successful!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You have successfully withdraw!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -753,6 +820,72 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
                 <div class="modal-body">
                     <p>Please have an initial deposit first!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Leave no group modal -->
+    <div class="modal fade" id="leavenogroup" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">You are not a part of any group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>Please join a group first!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Leave success modal -->
+    <div class="modal fade" id="leave_success" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title">Leave Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You successfully leave the group!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Insufficient modal -->
+    <div class="modal fade" id="insufficientModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-warning text-white">
+                    <h5 class="modal-title">Insufficient Members</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>The group needs atleast 6 members to start!</p>
                 </div>
 
                 <div class="modal-footer">
@@ -824,7 +957,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         eye.addEventListener("click", () => {
             visible = !visible;
             if (visible) {
-                balance.textContent = "₱12,450.00";
+                balance.textContent = fetch_user_balance();
                 eye.classList.replace("fa-eye-slash", "fa-eye");
             } else {
                 balance.textContent = "••••••••";
@@ -895,9 +1028,12 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             if (confirm("Do you want to leave this group?")) {
                 $.post("../../crud/php/leave_group.php", { member_id: member_id }, function (response) {
                     if (response === "leave") {
+                        let leave_success = new bootstrap.Modal(document.getElementById('leave_success'));
+                        leave_success.show();
                         window.location.href = "member_dashboard.php";
                     } else {
-                        alert("You are not part of any group.");
+                        let leavegroup = new bootstrap.Modal(document.getElementById('leavenogroup'));
+                        leavegroup.show();
                     }
                 });
             }
@@ -953,9 +1089,16 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         // send payout notification
         notify_payout();
 
+        //user balance
+        fetch_user_balance();
+
         enable_withdrawal();
 
         leave_group_button();
+
+        count_members();
+
+        count_pending_invites();
 
         // Prevent back navigation
         window.addEventListener("pageshow", function (event) {

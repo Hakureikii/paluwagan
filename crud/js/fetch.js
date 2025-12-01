@@ -310,3 +310,40 @@ function leave_group_button() {
       }
    });
 }
+
+
+//fetch user balance
+
+function fetch_user_balance() {
+   $.get("../../crud/php/fetch_user_balance.php", function (response) {
+      if (response === "false") {
+         $("#withdraw_amount").val("0");
+         $("#navBalance").html("₱0");
+         return;
+      }
+      let balance = JSON.parse(response);
+      $("#withdraw_amount").val(`${balance.total_contributions}`);
+      $("#navBalance").html("₱" + `${balance.total_contributions}`);
+   })
+
+}
+
+
+function count_deposits() {
+   $.get("../../crud/php/count_deposits.php", function (response) {
+      $("#count_deposits").html(response)
+   })
+}
+
+function count_pending_invites() {
+   $.get("../../crud/php/count_pending_invites.php", function (response) {
+      $("#pending_invites_count").html(response)
+   })
+}
+
+
+function count_members() {
+   $.get("../../crud/php/count_members.php", function (response) {
+      $("#total_members").html(response)
+   })
+}

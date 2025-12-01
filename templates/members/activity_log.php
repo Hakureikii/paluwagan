@@ -435,12 +435,12 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             <div class="mb-3">
               <label for="withdraw_amount" class="form-label fw-semibold">Amount</label>
               <input type="number" class="form-control form-control-lg" id="withdraw_amount" placeholder="₱0.00"
-                required>
+                required disabled>
             </div>
             <div class="mb-3">
               <label for="wallet_number" class="form-label fw-semibold">GCash / Wallet Number</label>
               <input type="text" class="form-control form-control-lg" id="wallet_number" placeholder="09XXXXXXXXX"
-                required>
+                value="<?php echo $_SESSION["contact"] ?>" required>
             </div>
             <button type="submit" class="btn btn-danger w-100 fw-semibold">Withdraw</button>
           </form>
@@ -448,6 +448,51 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
       </div>
     </div>
   </div>
+
+  <!-- Deposit Success Modal -->
+  <div class="modal fade" id="doneDepositModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Deposit Successful!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p>You have successfully deposited!</p>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Withdraw Success Modal -->
+  <div class="modal fade" id="doneWithdrawModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title">Withdrawal Successful!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <div class="modal-body">
+          <p>You have successfully withdraw!</p>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  
   <script src="../../jquery.js"></script>
   <script src="../../crud/js/create.js"></script>
   <script src="../../crud/js/fetch.js"></script>
@@ -485,7 +530,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
 
     // Balance toggle
     const balance = document.getElementById("navBalance"), eye = document.getElementById("toggleBalance");
-    let visible = true; eye.addEventListener("click", () => { visible = !visible; if (visible) { balance.textContent = "₱12,450.00"; eye.classList.replace("fa-eye-slash", "fa-eye"); } else { balance.textContent = "••••••••"; eye.classList.replace("fa-eye", "fa-eye-slash"); } });
+    let visible = true; eye.addEventListener("click", () => { visible = !visible; if (visible) { balance.textContent = fetch_user_balance(); eye.classList.replace("fa-eye-slash", "fa-eye"); } else { balance.textContent = "••••••••"; eye.classList.replace("fa-eye", "fa-eye-slash"); } });
 
     // Fetch activity logs
     fetch_activity_logs();
@@ -497,6 +542,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
     check_group_status();
 
     enable_withdrawal();
+
+    fetch_user_balance();
 
     // Reload page on browser back
     window.addEventListener("pageshow", function (event) { if (event.persisted) { window.location.reload(); } });

@@ -26,8 +26,13 @@ function form_group(group_name, capacity) {
 
 function send_member_invites(selected_members) {
    $.post("../../crud/php/send_member_invites.php", { members: selected_members }, function (response) {
-      alert(response);
-      display_pending_invites();
+      if (response === "invitations sent!") {
+         let invites_modal = new bootstrap.Modal(document.getElementById('invites_modal'));
+         invites_modal.show();
+         count_pending_invites();
+         display_pending_invites();
+      }
+
    })
 }
 
@@ -37,6 +42,7 @@ $(document).on('click', '.join-btn', function () {
    let group_id = $(this).data("group-id");
    $.post("../../crud/php/send_join_requests.php", { group_id: group_id }, function (response) {
       if (response === "request sent") {
+         $(".form_invite_members").fadeOut(200);
          let request_modal = new bootstrap.Modal(document.getElementById('request_sent'));
          request_modal.show();
       }
@@ -47,9 +53,13 @@ $(document).on('click', '.join-btn', function () {
 
 function deposit(amount) {
    $.post("../../crud/php/deposit.php", { amount: amount }, function (response) {
-      alert(response)
       if (response === "complete") {
-         alert("Transaction Complete!");
+         let depositModal = bootstrap.Modal.getInstance(document.getElementById('deposit_money'));
+         depositModal.hide();
+
+         let doneDepositModal = new bootstrap.Modal(document.getElementById('doneDepositModal'));
+         doneDepositModal.show();
+         fetch_user_balance();
       }
    });
 }
@@ -57,9 +67,14 @@ function deposit(amount) {
 
 function withdraw(amount) {
    $.post("../../crud/php/withdraw.php", { amount: amount }, function (response) {
-      alert(response)
       if (response === "complete") {
-         alert("Transaction Complete!");
+         let withdrawModal = bootstrap.Modal.getInstance(document.getElementById('withdraw_money'));
+         withdrawModal.hide();
+
+         let doneWithdrawModal = new bootstrap.Modal(document.getElementById('doneWithdrawModal'));
+         doneWithdrawModal.show();
+         fetch_user_balance();
+         enable_withdrawal();
       }
    });
 }
@@ -73,6 +88,11 @@ function start_rotation(status) {
          rotationModal.show();
          ongoing_rotation();
          leave_group_button();
+
+      } else if (response.trim() === "insufficient members") {
+         let insufficientModal = new bootstrap.Modal(document.getElementById('insufficientModal'));
+         insufficientModal.show();
+
       } else {
          let rotationModal = new bootstrap.Modal(document.getElementById('rotationModalFail'));
          rotationModal.show();

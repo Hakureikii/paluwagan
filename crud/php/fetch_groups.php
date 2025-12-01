@@ -40,8 +40,6 @@ LEFT JOIN (
     GROUP BY group_id
 ) AS m ON g.group_id = m.group_id
 ORDER BY total_contributions DESC;
-
-
 ");
 
 $groups->execute();

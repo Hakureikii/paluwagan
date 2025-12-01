@@ -17,6 +17,7 @@ if (password_verify($password, $account["password"])) {
     $_SESSION["member_name"] = $account["first_name"];
     $_SESSION["member_id"] = $account["member_id"];
     $_SESSION["member_group"] = $account["group_id"];
+    $_SESSION["contact"] = $account["contact_number"];
     echo "login";
 } else {
     echo "err";

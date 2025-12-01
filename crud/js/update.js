@@ -10,7 +10,7 @@ $(document).on('click', '.accept-invitation', function () {
          },
          function (response) {
             alert(response);
-            display_group_invitations();
+            load_all_notifications();
          })
    }
 })

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2025 at 06:54 AM
+-- Generation Time: Dec 01, 2025 at 05:31 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -40,7 +40,9 @@ CREATE TABLE `activity_logs` (
 --
 
 INSERT INTO `activity_logs` (`logs_id`, `title`, `description`, `date_time_created`, `member_id`) VALUES
-(1, 'Transaction: Deposit', 'You Deposited: ₱2000', '2025-11-30 09:56:06', 22);
+(6, 'Transaction: Deposit', 'You Deposited: ₱10000', '2025-12-01 23:46:42', 37),
+(7, 'Transaction: Deposit', 'You Deposited: ₱5000', '2025-12-01 23:47:22', 33),
+(8, 'Transaction: Deposit', 'You Deposited: ₱100', '2025-12-01 23:50:28', 35);
 
 -- --------------------------------------------------------
 
@@ -80,8 +82,9 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`group_id`, `group_name`, `group_capacity`, `date_created`, `creator_id`) VALUES
-(19, 'Banog', 6, '2025-10-24', 22),
-(21, 'Lilam\'s Group', 6, '2025-11-14', 24);
+(25, 'Baiiii', 6, '2025-12-01', 35),
+(26, 'Lilam Group', 6, '2025-12-01', 37),
+(27, 'Pouf', 6, '2025-12-01', 33);
 
 -- --------------------------------------------------------
 
@@ -115,6 +118,21 @@ CREATE TABLE `group_rotation` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `join_requests`
+--
+
+CREATE TABLE `join_requests` (
+  `request_id` int(11) NOT NULL,
+  `creator_id` int(11) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  `date_time_requested` datetime NOT NULL,
+  `message` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `member`
 --
 
@@ -138,13 +156,15 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`member_id`, `last_name`, `first_name`, `middle_name`, `barangay`, `municipality`, `province`, `email`, `password`, `credentials`, `contact_number`, `group_id`) VALUES
-(1, 'asdfsdaf', 'fsdsfsdaf', 'sdasfdsaf', 'dsfsdaf', 'sdafsddfsdf', 'sadfsdafsdf', 'asdfsdfsdaf', '$2y$10$3trdIkptQX/wedI/SvQ2VOKgtly3yMW4imP8yzcYxp3PbDtXRq2se', 'C:\\fakepath\\Paper_Big_Data_and_Analytics_Adoption_Intention_in_SMEs_2025.pdf', '234234', NULL),
-(11, 'bai', 'bai', 'bai', 'bai', 'bai', 'bai', 'bai@gmail.com', '$2y$10$7toWc6nh1aK7Rbv9XD./yuR9u1zxOxg7MWBTgRcwoQwsCP5w7gI4q', 'C:\\fakepath\\Screenshot 2025-10-02 160847.png', '09987654321', NULL),
-(12, 'sakjdfh', 'sahfkash', 'sajshfksjh', 'asfhkasfh', 'safhsakdfh', 'askfhskadh', 'bai@gmail.com', '$2y$10$sLSgqYTsdXu4VNtTQr/GEOoqo6dxzUgdJMM4Tf9EjDBstvzuyUZ4a', 'C:\\fakepath\\Screenshot 2025-10-02 181416.png', '0998764321', NULL),
-(22, 'Casaquite', 'Kenneth', 'Alfonso', 'Sibacungan', 'Lambunao', 'Iloilo', 'casaquitekenneth@gmail.com', '$2y$10$wPrt32jCs1vLMZZIFkBPY.6Aoq5x9Ev3Cw15.FNJmmZn7xdAwaW22', 'C:\\fakepath\\download (4).jpg', '09621848506', 19),
-(23, 'Gimeno', 'Sean Ivan', 'Andales', 'Manaolan', 'Badiangan', 'Iloilo', 'gimeno@gmail.com', '$2y$10$VPQG5O9kRfU9nx6xkcCj8.ymCHb.dLhePKK3YU4G2I6IAJzJBdFTO', 'C:\\fakepath\\download (3).jpg', '09123456789', 19),
-(24, 'Arana', 'Cathlene Ann', 'Lilam', 'Corot-on', 'Lambunao', 'Iloilo', 'arana@gmail.com', '$2y$10$OtJ5o5KJYz1GocsQO1WNVOjzDVfCHCFwuVG0JF7uyrCK/0CKJ36sm', 'C:\\fakepath\\Screenshot 2025-09-27 235451.png', '09112223333', 21),
-(25, 'Bay', 'na', 'bay', 'BAY', 'bay', 'bay', 'baybay@gmail.com', '$2y$10$SNbpWJxHhS5/pOqywzWiVOYxWEqSHBzkbMVodKhZ9TJUs0ldkQVVu', 'C:\\fakepath\\images (2).jpg', '03949139123', NULL);
+(33, 'Abelarde', 'Ocede Marl', 'Cabanero', 'Maribong', 'Lambunao', 'Iloilo', 'abelarde@gmail.com', '$2y$10$vwiEe0HSotpgZzNENL/3b./dpRFVNiF3qum0PxajhutCNlGxPA0RK', 'C:\\fakepath\\After Auto deleteion.png', '09293853759', 27),
+(34, 'Recabar', 'Angel Rose', 'Cedazo', 'Brgy. Guadalupe', 'Janiuay', 'Iloilo', 'recabar@gmail.com', '$2y$10$NAfYqoYwGY/o/.7OQ.ndyey01XFKIaFJBuGaNrvKhwXUui9pYRQs6', 'C:\\fakepath\\Screenshot 2025-08-30 090132.png', '09193056854', 25),
+(35, 'Casaquite', 'Kenneth', 'Alfonso', 'Sibacungan', 'Lambunao', 'Iloilo', 'casaquite@gmail.com', '$2y$10$VYyrwqCICZlvf.gCA5Y4ieL8j.K3npS829KQZ5KHnsJx/kNBAN9IC', 'C:\\fakepath\\After Auto deleteion.png', '09380952768', 25),
+(36, 'Gimeno', 'Sean Ivan', 'Andales', 'Manaolan', 'Badiangan', 'Iloilo', 'gimeno@gmail.com', '$2y$10$qTVYxAokvWPelCEpNynEveACDF1Z/AnoQdSPdk3tEskZYuq6HCT7i', 'C:\\fakepath\\Screenshot 2025-07-11 094633.png', '09483951095', 25),
+(37, 'Arana', 'Cathlene Ann', 'Lilam', 'Capangyan', 'Lambunao', 'Iloilo', 'arana@gmail.com', '$2y$10$.TO1nia6pGT0R1ntVSJEqunDnmoxG3pQCd.PEp12ijCD8gYpyTfCm', 'C:\\fakepath\\Screenshot 2025-08-30 090132.png', '09681920953', 26),
+(38, 'test', 'test', 'test', 'test', 'test', 'test', 'test@test.com', '$2y$10$jKE79V38HOUSGq5PEjUlHeBAv9MTVIlIVfelsY9DH9mUSbeBUzaoK', 'C:\\fakepath\\Screenshot 2025-07-11 094633.png', '09032849941', 25),
+(39, 'test2', 'test2', 'test2', 'test', 'test', 'test', 'test2@test.com', '$2y$10$rDjyqvI8c5EbTeA2ZU3GAeo8igxzM/F5Uns16DH4rkg2fbihhVib.', 'C:\\fakepath\\Screenshot 2025-08-30 090132.png', '09032849941', NULL),
+(40, 'test3', 'test3', 'test3', 'test', 'test', 'test', 'test3@test.com', '$2y$10$K1Fgcf44E1zobDG7gOr8BOrZdrbc7VYHdYseDtjhOo7wCSXcWNVla', 'C:\\fakepath\\Screenshot 2025-07-11 094633.png', '09032849941', NULL),
+(41, 'Solanib', 'Jan Kennard', 'Gadong', 'Pob. Ilawod', 'Bingawan', 'Iloilo', 'solanib@gmail.com', '$2y$10$Y1vTstVVJgrlqWpy8pQe/euVtH36qI3eSi7lk0u9gE1H7EFmGgBZC', 'C:\\fakepath\\Screenshot 2025-08-29 195411.png', '09093480923', NULL);
 
 -- --------------------------------------------------------
 
@@ -165,10 +185,16 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`notification_id`, `member_id`, `description`, `is_read`, `date_time_created`) VALUES
-(1, 23, 'You are invited to join a group!', 1, '2025-11-13 13:18:25'),
-(2, 23, 'You are invited to join a group!', 1, '2025-11-13 14:19:54'),
-(3, 23, 'You are invited to join a group!', 1, '2025-11-13 14:27:45'),
-(4, 23, 'You are invited to join a group!', 1, '2025-11-14 06:29:12');
+(1, 36, 'You are invited to join a group!', 1, '2025-12-01 16:27:16'),
+(2, 34, 'You are invited to join a group!', 1, '2025-12-01 16:27:16'),
+(3, 38, 'You are invited to join a group!', 1, '2025-12-01 16:27:16'),
+(4, 39, 'You are invited to join a group!', 1, '2025-12-01 16:27:16'),
+(5, 40, 'You are invited to join a group!', 1, '2025-12-01 16:28:02'),
+(6, 41, 'You are invited to join a group!', 0, '2025-12-01 16:32:20'),
+(7, 35, 'Someone wants to join your group', 1, '2025-12-01 23:34:36'),
+(8, 34, 'The leader accepted your join request', 1, '2025-12-01 23:34:47'),
+(9, 34, 'Withdrawal ready', 1, '2025-12-01 23:42:21'),
+(10, 35, 'Withdrawal ready', 1, '2025-12-01 23:44:29');
 
 -- --------------------------------------------------------
 
@@ -205,7 +231,9 @@ CREATE TABLE `transactions` (
 --
 
 INSERT INTO `transactions` (`transaction_id`, `transaction_type`, `transaction_date_time`, `amount`, `member_id`, `group_id`) VALUES
-(1, 'Deposit', '2025-11-30 09:56:06', 2000, 22, 19);
+(6, 'Deposit', '2025-12-01 23:46:42', 10000, 37, 26),
+(7, 'Deposit', '2025-12-01 23:47:22', 5000, 33, 27),
+(8, 'Deposit', '2025-12-01 23:50:28', 100, 35, 25);
 
 --
 -- Indexes for dumped tables
@@ -247,6 +275,12 @@ ALTER TABLE `group_rotation`
   ADD PRIMARY KEY (`rotation_id`);
 
 --
+-- Indexes for table `join_requests`
+--
+ALTER TABLE `join_requests`
+  ADD PRIMARY KEY (`request_id`);
+
+--
 -- Indexes for table `member`
 --
 ALTER TABLE `member`
@@ -281,7 +315,7 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
-  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `logs_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `admin`
@@ -293,13 +327,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `groups`
 --
 ALTER TABLE `groups`
-  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `group_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `group_invitations`
 --
 ALTER TABLE `group_invitations`
-  MODIFY `invitation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `invitation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `group_rotation`
@@ -308,16 +342,22 @@ ALTER TABLE `group_rotation`
   MODIFY `rotation_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `join_requests`
+--
+ALTER TABLE `join_requests`
+  MODIFY `request_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `notification_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `rotation_schedule`
@@ -329,7 +369,7 @@ ALTER TABLE `rotation_schedule`
 -- AUTO_INCREMENT for table `transactions`
 --
 ALTER TABLE `transactions`
-  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -353,7 +393,7 @@ ALTER TABLE `group_invitations`
 -- Constraints for table `member`
 --
 ALTER TABLE `member`
-  ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `member_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`group_id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `notifications`

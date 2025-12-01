@@ -6,7 +6,14 @@ date_default_timezone_set('Asia/Singapore');
 $amount = $_POST["amount"];
 $member_id = $_SESSION["member_id"];
 $date_time = date("Y-m-d H:i:s");
-$group_id = $_SESSION["member_group"];
+// $group_id = $_SESSION["member_group"];
+
+$group = $conn -> prepare("SELECT group_id FROM member WHERE member_id = :member_id");
+$group -> execute([
+    ":member_id" => $member_id,
+]);
+
+$group_id = $group -> fetch(PDO::FETCH_COLUMN);
 
 //deposit
 $stmt = $conn->prepare("INSERT INTO transactions(transaction_type, transaction_date_time, amount, member_id, group_id) VALUES(:transaction_type, :transaction_date_time, :amount, :member_id, :group_id)");

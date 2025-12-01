@@ -407,7 +407,8 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
             <div class="balance-container">
                 <button class="action-btn deposit-btn" data-bs-toggle="modal"
                     data-bs-target="#deposit_money">Deposit</button>
-                <button class="action-btn withdraw-btn">Withdraw</button>
+                <button class="action-btn withdraw-btn" data-bs-toggle="modal"
+                    data-bs-target="#withdraw_money">Withdraw</button>
                 <div class="balance-badge">
                     <i class="fa-solid fa-wallet"></i>
                     <span id="navBalance">₱12,450.00</span>
@@ -464,16 +465,60 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
                         <div class="mb-3">
                             <label for="withdraw_amount" class="form-label fw-semibold">Amount</label>
                             <input type="number" class="form-control form-control-lg" id="withdraw_amount"
-                                placeholder="₱0.00" required>
+                                placeholder="₱0.00" required disabled>
                         </div>
                         <div class="mb-3">
                             <label for="wallet_number" class="form-label fw-semibold">GCash / Wallet Number</label>
                             <input type="text" class="form-control form-control-lg" id="wallet_number"
-                                placeholder="09XXXXXXXXX" required>
+                                placeholder="09XXXXXXXXX" value="<?php echo $_SESSION["contact"] ?>" required>
                         </div>
                         <button type="submit" class="btn btn-danger w-100 fw-semibold">Withdraw</button>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit Success Modal -->
+    <div class="modal fade" id="doneDepositModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Deposit Successful!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You have successfully deposited!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Success Modal -->
+    <div class="modal fade" id="doneWithdrawModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">Withdrawal Successful!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p>You have successfully withdraw!</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+                </div>
+
             </div>
         </div>
     </div>
@@ -582,7 +627,7 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         eye.addEventListener("click", () => {
             visible = !visible;
             if (visible) {
-                balance.textContent = "₱12,450.00";
+                balance.textContent = fetch_user_balance();
                 eye.classList.replace("fa-eye-slash", "fa-eye");
             } else {
                 balance.textContent = "••••••••";
@@ -597,6 +642,9 @@ if (!isset($_SESSION["member_name"], $_SESSION["member_id"])) {
         notify_payout();
 
         enable_withdrawal();
+
+        // user balance
+        fetch_user_balance();
 
         // Reload page on browser back navigation
         window.addEventListener("pageshow", function (event) {

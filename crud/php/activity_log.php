@@ -6,7 +6,8 @@ $member_id = $_SESSION["member_id"];
 
 $stmt = $conn -> prepare("SELECT *, DATE(date_time_created) as date
 FROM activity_logs 
-WHERE member_id =:member_id");
+WHERE member_id =:member_id
+ORDER BY date_time_created DESC");
 $stmt -> execute([
     ":member_id" => $member_id
 ]);
